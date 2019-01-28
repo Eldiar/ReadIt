@@ -138,14 +138,36 @@ CONTENT STYLE
   margin-top: 4em;
   margin-bottom: 2em;
 }
+
+/*
+--------------------------------------------------
+TOP SECTION STYLE
+--------------------------------------------------
+*/
 .top{
-  height: 2em;
+  height: 3em;
   display: flex;
 }
 .maintop{
-  flex-basis: 82.5%;
-  background-color:#eaeaea;
+  flex-basis: 85%;
+  background-color:#f3f3f3;
+  border-color: #e7e7e7;
+  border-style: solid;
+  border-width: 0.1em;
+  border-radius: 0.2em;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);
 }
+.maintop p{
+  margin-top: 0.15em;
+  margin-left: 0.7em;
+  font-size: 2em;
+}
+
+/*
+--------------------------------------------------
+MID SECTION STYLE
+--------------------------------------------------
+*/
 .mid{
     display: flex;
     margin-top: 1em;
@@ -159,6 +181,19 @@ CONTENT STYLE
   /*Style*/
   background-color: #eaeaea;
 }
+.post{
+  font-size: 0.8em;
+  background-color:#f3f3f3;
+  border-color: #e7e7e7;
+  border-style: solid;
+  border-width: 0.1em;
+  border-radius: 0.2em;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);
+}
+.post p{
+  margin: 0.9em;
+
+}
 .sidebar{
   /*Positioning*/
   flex-basis: 25%;
@@ -166,6 +201,12 @@ CONTENT STYLE
   /*Style*/
   background-color: #eaeaea;
 }
+
+/*
+--------------------------------------------------
+SPACERS
+--------------------------------------------------
+*/
 .between5{
   /*Positioning*/
   flex-basis: 5%;
@@ -176,7 +217,3 @@ CONTENT STYLE
 .between6{
   flex-basis: 6%;
 }
-
-
-
-/* TEST PUSH OVERWRITE */
