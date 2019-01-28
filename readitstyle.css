@@ -135,13 +135,24 @@ CONTENT STYLE
 */
 
 .content{
-  display: flex;
   margin-top: 4em;
   margin-bottom: 2em;
 }
+.top{
+  height: 2em;
+  display: flex;
+}
+.maintop{
+  flex-basis: 82.5%;
+  background-color:#eaeaea;
+}
+.mid{
+    display: flex;
+    margin-top: 1em;
+}
 .main{
   /*Positioning*/
-  flex-basis: 65%;
+  flex-basis: 55%;
   flex-grow: 100;
   height: 1000px;
 
@@ -162,6 +173,6 @@ CONTENT STYLE
 .between7-5{
   flex-basis: 7.5%;
 }
-.between10{
-  flex-basis: 10%;
+.between6{
+  flex-basis: 6%;
 }
