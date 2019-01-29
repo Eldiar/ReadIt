@@ -226,7 +226,6 @@ SIDEBAR STYLE
   flex-basis: 25%;
 
   /*Style*/
-  background-color: #eaeaea;
 }
 .sidebar-post{
   background-color:#f3f3f3;
@@ -240,6 +239,9 @@ SIDEBAR STYLE
 .sidebar-post-title{
   font-size: 1.2em;
   text-align: center;
+}
+.sidebar-post-text{
+  
 }
 
 /*
