@@ -198,6 +198,8 @@ MID SECTION STYLE
   margin-left: 0.6em;
   margin-bottom: 0.2em;
   margin-top: 0.5em;
+  text-decoration: none;
+  color: black;
 }
 .posttext{
   font-size: 0.8em;
@@ -208,14 +210,32 @@ MID SECTION STYLE
 .postuser, .postdate{
   flex-basis: 15%;
   font-size: 0.8em;
+  margin-top: 1.2em;
+  text-decoration: none;
 }
-
+.postuser{
+  color: #10a3d1;
+}
+/*
+--------------------------------------------------
+SIDEBAR STYLE
+--------------------------------------------------
+*/
 .sidebar{
   /*Positioning*/
   flex-basis: 25%;
 
   /*Style*/
   background-color: #eaeaea;
+}
+.sidebarpost{
+  background-color:#f3f3f3;
+  border-color: #e7e7e7;
+  border-style: solid;
+  border-width: 0.1em;
+  border-radius: 0.2em;
+  box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.2);
+  margin-top: 1em;
 }
 
 /*
