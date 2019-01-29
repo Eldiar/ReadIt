@@ -138,14 +138,36 @@ CONTENT STYLE
   margin-top: 4em;
   margin-bottom: 2em;
 }
+
+/*
+--------------------------------------------------
+TOP SECTION STYLE
+--------------------------------------------------
+*/
 .top{
-  height: 2em;
+  height: 3em;
   display: flex;
 }
 .maintop{
-  flex-basis: 82.5%;
-  background-color:#eaeaea;
+  flex-basis: 85%;
+  background-color:#f3f3f3;
+  border-color: #e7e7e7;
+  border-style: solid;
+  border-width: 0.1em;
+  border-radius: 0.2em;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);
 }
+.maintop p{
+  margin-top: 0.15em;
+  margin-left: 0.7em;
+  font-size: 2em;
+}
+
+/*
+--------------------------------------------------
+MID SECTION STYLE
+--------------------------------------------------
+*/
 .mid{
     display: flex;
     margin-top: 1em;
@@ -157,8 +179,48 @@ CONTENT STYLE
   height: 1000px;
 
   /*Style*/
-  background-color: #eaeaea;
 }
+.post{
+  background-color:#f3f3f3;
+  border-color: #e7e7e7;
+  border-style: solid;
+  border-width: 0.1em;
+  border-radius: 0.2em;
+  box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.2);
+  margin-top: 1em;
+}
+.postheader{
+  display: flex;
+}
+.posttitle{
+  flex-basis: 70%;
+  font-size: 1.2em;
+  margin-left: 0.6em;
+  margin-bottom: 0.2em;
+  margin-top: 0.5em;
+  text-decoration: none;
+  color: black;
+}
+.posttext{
+  font-size: 0.8em;
+  margin-bottom: 0.5em;
+  margin-left: 0.9em;
+  margin-right: 0.9em;
+}
+.postuser, .postdate{
+  flex-basis: 15%;
+  font-size: 0.8em;
+  margin-top: 1.2em;
+  text-decoration: none;
+}
+.postuser{
+  color: #10a3d1;
+}
+/*
+--------------------------------------------------
+SIDEBAR STYLE
+--------------------------------------------------
+*/
 .sidebar{
   /*Positioning*/
   flex-basis: 25%;
@@ -166,6 +228,21 @@ CONTENT STYLE
   /*Style*/
   background-color: #eaeaea;
 }
+.sidebarpost{
+  background-color:#f3f3f3;
+  border-color: #e7e7e7;
+  border-style: solid;
+  border-width: 0.1em;
+  border-radius: 0.2em;
+  box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.2);
+  margin-top: 1em;
+}
+
+/*
+--------------------------------------------------
+SPACERS
+--------------------------------------------------
+*/
 .between5{
   /*Positioning*/
   flex-basis: 5%;
