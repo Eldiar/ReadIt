@@ -292,23 +292,35 @@ LOGIN / SIGNUP STYLE
 }
 .login p{
   /*Positioning*/
-  margin-top: 0.25em;
+  margin-top: ;
   margin-left: 0.7em;
 
   /*Style*/
   font-size: 1.8em;
 }
-input[type=text], input[type=password]{
+.loginform input[type=text], .loginform input[type=password]{
   font-size: 1em;
   padding: 12px 16px;
   margin: 8px 0;
   border: 3px solid #ccc;
   -webkit-transition: 0.5s;
   transition: 0.5s;
+  width: 75%;
+  margin-bottom: 2em;
 }
 
-input[type=text]:focus, input[type=password]:focus {
+.loginform input[type=text]:focus, .loginform input[type=password]:focus, .loginform input[type=submit]:hover {
   border: 3px solid #555;
+}
+
+.loginform input[type=submit]{
+  width: 50%;
+  margin-bottom: 3em;
+  padding: 12px 16px;
+  background-color: white;
+  border: 3px solid #ccc;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
 }
 
 /*
