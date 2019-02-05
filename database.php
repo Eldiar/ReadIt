@@ -1,5 +1,5 @@
 <?php
-$servername = "sgni.nl";
+$servername = "localhost:3307";
 $username = "6in1 René Tielen";
 $password = "113924";
 
