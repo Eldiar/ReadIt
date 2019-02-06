@@ -47,22 +47,19 @@
       <div class="mid">
         <div class="between25"></div>
 
-        <div class="signup">
-          <p>Create your post</p>
-          <form class="createpost" action="postcreated.php" method="post">
-            <label>Title</label><br/>
-            <input type="text" name="title" size="50"><br/>
+        <div class="main">
 
-            <label>Post</label><br/>
-            <textarea name="postMessage" rows="12" cols="64" size="50"></textarea><br/>
+            <div class="post">
+              <div class="postheader">
+                <a href="#" class="posttitle"><b><?php echo $_POST["title"]; ?></b></a>
+                <a href="#" class="postuser">Username</a>
+                <span class="postdate">dd-mm-yyyy</span>
+              </div>
+              <p class="posttext">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
 
-            <select name="postforum" class="forumselect">
-              <option value="#">select a forum</option>
-              <option value="test">Dit is een test</option>
-            </select>
-            <input type = "submit" value = "Post">
-          </form>
         </div>
+
 
         <div class="between25"></div>
       </div>
