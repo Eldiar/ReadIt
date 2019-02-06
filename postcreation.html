@@ -7,7 +7,7 @@
 
     <!-- CSS Link -->
       <link rel="stylesheet" type="text/css" href="readitstyle.css">
-
+      <link rel="stylesheet" type="text/css" href="signuptemp.css"
     <!-- PHP Links -->
 
     <!-- Javascript Links -->
@@ -22,9 +22,9 @@
       </div>
 
       <div class="navbar navhover">
-        <a href="index.php">Home</a>
+        <a href="#">Home</a>
         <a href="#">Forums</a>
-        <a href="#topfeed.php">Top</a>
+        <a href="#">Top</a>
       </div>
 
       <div class="accountbar">
@@ -33,9 +33,9 @@
           <button class="dropbtn">Account</button>
           <div class="dropdown-content">
             <a href="#">Login</a>
-            <a href="signup.php">Sign Up</a>
+            <a href="#">Sign Up</a>
             <a href="#">Logout</a>
-            <a href="profile.php">Profile</a>
+            <a href="#">Profile</a>
           </div>
         </div>
       </div>
@@ -48,16 +48,20 @@
       <div class="mid">
         <div class="between25"></div>
 
-        <div class="login">
-          <p>Login</p>
-          <form class="loginform" action="index.html" method="post">
-            <label>Username:</label><br/>
-            <input type="text" name="username"><br/>
+        <div class="signup">
+          <p>Create your post</p>
+          <form class="createpost" action="index.html" method="post">
+            <label>Title</label><br/>
+            <input type="text" name="title" size="50"><br/>
 
-            <label>Password:</label><br/>
-            <input type="password" name="password"><br/>
+            <label>Post</label><br/>
+            <textarea name="post" rows="12" cols="64" size="50"></textarea><br/>
 
-            <input type="submit" value = "Login">
+            <select name="postforum" class="forumselect">
+              <option value="#">select a forum</option>
+              <option value="test">Dit is een test</option>
+            </select>
+            <input type = "submit" value = "Post">
           </form>
         </div>
 

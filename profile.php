@@ -24,7 +24,7 @@
       </div>
 
       <div class="navbar navhover">
-        <a href="#">Home</a>
+        <a href="index.php">Home</a>
         <a href="#">Forums</a>
         <a href="#">Top</a>
       </div>
@@ -35,9 +35,9 @@
           <button class="dropbtn">Account</button>
           <div class="dropdown-content">
             <a href="#">Login</a>
-            <a href="#">Sign Up</a>
+            <a href="signup/php">Sign Up</a>
             <a href="#">Logout</a>
-            <a href="#">Profile</a>
+            <a href="profile.php">Profile</a>
           </div>
         </div>
       </div>
@@ -88,7 +88,7 @@
             <p class="sidebar-post-text">Birthday:</p>
             <p class="sidebar-post-text">Age:</p>
             <p class="sidebar-post-text">Likes given:</p>
-            <p class="sidebar-post-text">Likes Recieved:</p> 
+            <p class="sidebar-post-text">Likes Recieved:</p>
           </div>
         </div>
 
