@@ -21,9 +21,9 @@
       </div>
 
       <div class="navbar navhover">
-        <a href="#">Home</a>
+        <a href="index.php">Home</a>
         <a href="#">Forums</a>
-        <a href="#">Top</a>
+        <a href="topfeed.php">Top</a>
       </div>
 
       <div class="accountbar">
@@ -31,10 +31,10 @@
         <div class="dropdown navhover">
           <button class="dropbtn">Account</button>
           <div class="dropdown-content">
-            <a href="#">Login</a>
-            <a href="#">Sign Up</a>
+            <a href="login.php">Login</a>
+            <a href="signup.php">Sign Up</a>
             <a href="#">Logout</a>
-            <a href="#">Profile</a>
+            <a href="profile.php">Profile</a>
           </div>
         </div>
       </div>

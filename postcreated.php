@@ -53,7 +53,7 @@
               <div class="postheader">
                 <a href="#" class="posttitle"><b><?php echo $_POST["title"]; ?></b></a>
                 <a href="#" class="postuser">Username</a>
-                <span class="postdate">dd-mm-yyyy</span>
+                <span class="postdate"><?php echo date("Y/m/d")?></span>
               </div>
               <p class="posttext"><?php echo $_POST["postMessage"]; ?></p>
             </div>
