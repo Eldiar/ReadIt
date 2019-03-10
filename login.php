@@ -1,70 +1,41 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ReadIt - Home</title>
+<?php
+// User login process, checks if user exists and password is imagegammacorrect
 
-    <!-- CSS Link -->
-      <link rel="stylesheet" type="text/css" href="readitstyle.css">
+]// Escape email to protect against SQL injections
+$username = $db->escape_string($_POST['username']);
 
-    <!-- PHP Links -->
+$stmt = $db->query("SELECT * FROM User WHERE Username='$username'");
+$result = $stmt->fetch();
 
-    <!-- Javascript Links -->
+if( $result->num_rows == 0){ //User doesn't exist
+  $_SESSION['message'] = "User with that username doesn't exist!";
+  header("location: error.php");
+}
 
-  </head>
-  <body>
-    <div class="header">
+else{ //user exists
 
-      <div class="logo">
-        <img src="Images/logo.png" alt="ReadIt Logo">
-        <h3>ReadIt</h3>
-      </div>
+  $user = result->fetch_assoc();
 
-      <div class="navbar navhover">
-        <a href="index.php">Home</a>
-        <a href="#">Forums</a>
-        <a href="#topfeed.php">Top</a>
-      </div>
+  if ( password_verify($_POST['password'], $user['password']) ) {
 
-      <div class="accountbar">
-        <div class="accountbarplaceholder"></div>
-        <div class="dropdown navhover">
-          <button class="dropbtn">Account</button>
-          <div class="dropdown-content">
-            <a href="#">Login</a>
-            <a href="signup.php">Sign Up</a>
-            <a href="#">Logout</a>
-            <a href="profile.php">Profile</a>
-          </div>
-        </div>
-      </div>
-    </div>
+    $_SESSION['username'] = $user['Username'];
+    $_SESSION['first_name'] = $user['Firstname'];
+    $_SESSION['last_name'] = $user['Lastname'];
+    $_SESSION['email'] = $user['Email'];
+    $_SESSION['active'] = $user['Active'];
 
-    <!-- Content -->
+    //This is how we know the user is logged in
+    $_SESSION['logged_in'] = true;
 
-    <div class="content">
+    header("location: profile.php")
+  }
 
-      <div class="mid">
-        <div class="between25"></div>
+  else {
+    $_SESSION['message'] = "You have entered the wrong password, try again!"
+    header("location: error.php");
+  }
 
-        <div class="login">
-          <p>Login</p>
-          <form class="loginform" action="index.html" method="post">
-            <label>Username:</label><br/>
-            <input type="text" name="username"><br/>
-
-            <label>Password:</label><br/>
-            <input type="password" name="password"><br/>
-
-            <input type="submit" value = "Login">
-          </form>
-        </div>
-
-        <div class="between25"></div>
-      </div>
+}
 
 
-
-  </body>
-</html>
+?>
