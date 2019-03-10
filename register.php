@@ -24,6 +24,7 @@
   if ($result->num_rows > 0) {
 
     $_SESSION['message'] = 'User with this email already exists!';
+    $_SESSION['ErrorType'] = "register";
     header("location: error.php")
 
   }
@@ -62,6 +63,7 @@
 
   else {
     $_SESSION['message'] = 'Registration failed!';
+    $_SESSION['ErrorType'] = "register";
     header("location: error.php");
   }
 

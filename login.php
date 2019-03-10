@@ -32,7 +32,9 @@ else{ //user exists
 
   else {
     $_SESSION['message'] = "You have entered the wrong password, try again!"
+    $_SESSION['logregError'] == "login";
     header("location: error.php");
+
   }
 
 }

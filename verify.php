@@ -18,6 +18,7 @@ if (isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && 
 
     if ( $result->num_rows == 0 ){
       $_SESSION['message'] = "Account has already been activated or the URL is invalid!";
+      $_SESSION['ErrorType'] = "verify";
       header("location: error.php");
 
     }
@@ -34,6 +35,7 @@ if (isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && 
     }
   else{
     $_SESSION['message'] = "Invalid parameters provided for account verification!";
+    $_SESSION['ErrorType'] = "verify";
     header("location: error.php")
   }
 
