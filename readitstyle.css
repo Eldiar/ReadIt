@@ -366,6 +366,50 @@ LOGIN / SIGNUP STYLE
   width: 27.4%;
 }
 
+
+
+/*
+-------------------------------------------------
+ERRORS
+-------------------------------------------------
+*/
+
+.error{
+  /*Positioning*/
+  margin-top: 1em;
+
+  /*Style*/
+  background-color:#f3f3f3;
+  border-color: #e7e7e7;
+  border-style: solid;
+  border-width: 0.1em;
+  border-radius: 0.2em;
+  box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.2);
+
+}
+
+.errortitle{
+  /*Positioning*/
+  flex-basis: 70%;
+  margin-left: 0.6em;
+  margin-bottom: 0.2em;
+  margin-top: 0.5em;
+
+  /*Style*/
+  text-decoration: none;
+  font-size: 1.2em;
+  color: black;
+}
+.errortext{
+  /*Positioning*/
+  margin-bottom: 0.5em;
+  margin-left: 0.9em;
+  margin-right: 0.9em;
+
+  /*Style*/
+  font-size: 0.8em;
+}
+
 /*
 --------------------------------------------------
 SPACERS

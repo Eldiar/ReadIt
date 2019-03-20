@@ -16,14 +16,14 @@
   $birthday = $_POST['birthday'];
 
   // Check if user with that email already exists
-  $stmt = $db->prepare("SELECT * FROM User WHERE User.EmailAdress= :email");
-  $stmt->execute(array(':email' => $email));
+  $stmt = $db->prepare("SELECT * FROM User WHERE User.Username= :username");
+  $stmt->execute(array(':username' => $username));
   $result = $stmt->fetch();
 
   //We know user email exists if returned $result is set
   if ($result) {
 
-    $_SESSION['message'] = 'User with this email already exists!';
+    $_SESSION['message'] = 'This username has already been taken!';
     $_SESSION['ErrorType'] = "register";
     header("location: error.php");
 

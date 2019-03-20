@@ -21,8 +21,11 @@ session_start();
     if (isset($_POST['register'])){
         require 'register.php';
     }
-
   }
+  if ($_SESSION['logged_in'] == true){
+    header("location: index.php");
+  }
+
   ?>
 
   <body>
@@ -44,10 +47,17 @@ session_start();
         <div class="dropdown navhover">
           <button class="dropbtn">Account</button>
           <div class="dropdown-content">
-            <a href="login.php">Login</a>
-            <a href="signup.php">Sign Up</a>
-            <a href="#">Logout</a>
-            <a href="profile.php">Profile</a>
+            <?php
+            if($_SESSION['logged_in']==true){
+              echo '<a href="logout.php">Logout</a>
+              <a href="profile.php">Profile</a>';
+            }
+            else{
+              echo '<a href="login_form.php">Login</a>
+              <a href="register_form.php">Sign Up</a>';
+
+            }
+            ?>
           </div>
         </div>
       </div>
