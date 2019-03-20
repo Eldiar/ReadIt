@@ -64,7 +64,7 @@ session_start();
 
         <div class="signup">
           <p>Sign up</p>
-          <form class="signupform" action="index.html" method="post">
+          <form class="signupform" action="register_form.php" method="post">
             <label>Username:</label><br/>
             <input type="text" name="username"><br/>
 

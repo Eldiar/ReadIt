@@ -8,12 +8,20 @@
     <!-- CSS Link -->
       <link rel="stylesheet" type="text/css" href="readitstyle.css">
 
-    <!-- PHP Links -->
-
-    <!-- Javascript Links -->
 
   </head>
   <body>
+    <?php
+      if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+        if (isset($_POST['login'])){
+
+          require 'login.php';
+
+        }
+      }
+
+    ?>
+
     <div class="header">
 
       <div class="logo">
@@ -50,14 +58,14 @@
 
         <div class="login">
           <p>Login</p>
-          <form class="loginform" action="index.html" method="post">
+          <form class="loginform" action="login_form.php" method="post">
             <label>Username:</label><br/>
             <input type="text" name="username"><br/>
 
             <label>Password:</label><br/>
             <input type="password" name="password"><br/>
 
-            <input type="submit" value = "Login">
+            <button type="submit" name="login">login</button>
           </form>
         </div>
 
