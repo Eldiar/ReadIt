@@ -30,9 +30,6 @@ session_start();
       if($_SESSION['ErrorType'] == "register"){
         echo '<a href="register_form.php"><button class="">Back to register!</button></a>';
       }
-      if($_SESSION['ErrorType'] == "forgot"){
-        echo '<a href="forgot.php"><button class="">Try again</button></a>';
-      }
     }
     else{
       header("location: index.php");
