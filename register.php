@@ -7,7 +7,7 @@
   $_SESSION['last_name'] = $_POST['last_name'];
   $_SESSION['birthday'] = $_POST['birthday'];
 
-  // Escape all $_POST variables to protect against SQL injections
+  //Set variables for local use
   $username =$_POST['username'];
   $email = $_POST['email'];
   $first_name = $_POST['first_name'];
@@ -18,10 +18,10 @@
   // Check if user with that email already exists
   $stmt = $db->prepare("SELECT * FROM User WHERE User.EmailAdress= :email");
   $stmt->execute(array(':email' => $email));
-  $result = $stmt->fetchAll();
+  $result = $stmt->fetch();
 
-  //We know user email exists if returned rows > 0
-  if ($result->num_rows > 0) {
+  //We know user email exists if returned $result is set
+  if ($result) {
 
     $_SESSION['message'] = 'User with this email already exists!';
     $_SESSION['ErrorType'] = "register";
@@ -35,17 +35,14 @@
     "VALUES (:username, :password, :birthday, :firstname, :lastname, :email)");
 
     if($stmt->execute(array(':username' => $username, ':password'=> $password, ':birthday'=>$birthday, ':firstname'=>$first_name, ':lastname'=>$last_name, ':email'=>$email))){
-    $_SESSION['active'] = 1;
-    $_SESSION['logged_in'] = true;
+      $_SESSION['logged_in'] = true;
+      header("location: profile.php");
+    }
 
-    header("location: profile.php");
-
-  }
-
-  else {
-    $_SESSION['message'] = 'Registration failed!';
-    $_SESSION['ErrorType'] = "register";
-    header("location: error.php");
+    else {
+      $_SESSION['message'] = 'Registration failed!';
+      $_SESSION['ErrorType'] = "register";
+      header("location: error.php");
   }
 
 }

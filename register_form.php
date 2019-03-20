@@ -17,14 +17,12 @@ session_start();
 
   </head>
   <?php
-    if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-      if (isset($_POST['register'])){
-
+  if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if (isset($_POST['register'])){
         require 'register.php';
-
-      }
     }
 
+  }
   ?>
 
   <body>
@@ -66,23 +64,22 @@ session_start();
           <p>Sign up</p>
           <form class="signupform" action="register_form.php" method="post">
             <label>Username:</label><br/>
-            <input type="text" name="username"><br/>
+            <input type="text" name="username" required><br/>
 
             <label>Email address</label><br/>
-            <input type="email" name="email"><br/>
+            <input type="email" name="email" required><br/>
 
             <label>Password:</label><br/>
-            <input type="password" name="password"><br/>
+            <input type="password" name="password" required><br/>
 
-            <label>Confirm password:</label><br/>
-            <input type="password" name="confirmpassword"><br/>
+            <label>First name</label><br/>
+            <input type="text" name="first_name"><br/>
 
-            <label>First name</label> <label>Last name</label><br/>
-            <input type="text" name="first_name">
+            <label>Last name</label><br/>
             <input type="text" name="last_name"><br/>
 
             <label>Birthday</label><br/>
-            <input type="date" name="birthday"><br/>
+            <input type="date" name="birthday" required><br/>
 
             <button type="submit" name="register">register</button>
           </form>
