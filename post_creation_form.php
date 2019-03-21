@@ -76,10 +76,10 @@ session_start();
             <form class="createpost" action="post_creation_form.php" method="post">
 
               <label>Title</label><br/>
-              <input type="text" name="postTitle" size="50" value="<?php echo $_SESSION['postTitle'];?>" placeholder="(Max. 40 Characters)" required><br/>
+              <input type="text" name="postTitle" size="50" value="<?php echo $_SESSION['postTitle'];?>" placeholder="(Max. 100 Characters)" required><br/>
 
               <label>Post</label><br/>
-              <textarea name="postMessage" rows="12" cols="64" size="50" placeholder="(Max. 5000 Characters)" required><?php echo $_SESSION['postMessage'];?></textarea><br/>
+              <textarea name="postMessage" rows="12" cols="64" size="50" placeholder="(Max. 4000 Characters)" required><?php echo $_SESSION['postMessage'];?></textarea><br/>
 
               <select name="postForum" class="forumselect" value="<?php echo $_SESSION['postForum']; ?>" required>
                 <option value="0">select a forum</option>
@@ -97,12 +97,11 @@ session_start();
 
         </div>
         <?php
-          /*if (isset($_SESSION['postTitle']) || isset($_SESSION['postMessage']) || isset($_SESSION['postForum'])){
+          if (isset($_SESSION['postTitle']) || isset($_SESSION['postMessage']) || isset($_SESSION['postForum'])){
             unset($_SESSION['postTitle']);
             unset($_SESSION['postMessage']);
             unset($_SESSION['postForum']);
-          }*/
-
+          }
         ?>
   </body>
 </html>
