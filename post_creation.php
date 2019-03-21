@@ -14,15 +14,15 @@ $titleLength = strlen($postTitle);
 
 
 // Post title length check
-if ($titleLength > 40) {
-  $_SESSION['message'] = "The title cannot be longer than 40 characters! (including spaces)";
+if ($titleLength > 100) {
+  $_SESSION['message'] = "The title cannot be longer than 100 characters! (including spaces)";
   $_SESSION['ErrorType'] = "postCreation";
 
   header("location: error.php");
 }
 // Post message length check
-elseif (strlen($postMessage) > 5000) {
-  $_SESSION['message'] = "The post content cannot be longer than 5000 characters! (including spaces)";
+elseif (strlen($postMessage) > 4000) {
+  $_SESSION['message'] = "The post content cannot be longer than 4000 characters! (including spaces)";
   $_SESSION['ErrorType'] = "postCreation";
 
   header("location: error.php");
