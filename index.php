@@ -11,14 +11,7 @@ session_start();
     <title>ReadIt - Home</title>
 
     <!-- CSS Link -->
-      <link rel="stylesheet" type="text/css" href="readitstyle.css">
-
-    <!-- PHP Links -->
-
-    <!-- Javascript Links -->
-
-
-
+    <link rel="stylesheet" type="text/css" href="readitstyle.css">
   </head>
   <body>
     <div class="header">
