@@ -1,3 +1,7 @@
+<?php
+require 'db.php';
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -7,12 +11,22 @@
 
     <!-- CSS Link -->
       <link rel="stylesheet" type="text/css" href="readitstyle.css">
-    <!-- PHP Links -->
 
-    <!-- Javascript Links -->
 
   </head>
   <body>
+    <?php
+      if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+        if (isset($_POST['login'])){
+          require 'login.php';
+        }
+      }
+
+      if ($_SESSION['logged_in'] == true){
+        header("location: index.php");
+      }
+    ?>
+
     <div class="header">
 
       <div class="logo">
@@ -31,10 +45,17 @@
         <div class="dropdown navhover">
           <button class="dropbtn">Account</button>
           <div class="dropdown-content">
-            <a href="login.php">Login</a>
-            <a href="signup.php">Sign Up</a>
-            <a href="#">Logout</a>
-            <a href="profile.php">Profile</a>
+            <?php
+            if($_SESSION['logged_in']==true){
+              echo '<a href="logout.php">Logout</a>
+              <a href="profile.php">Profile</a>';
+            }
+            else{
+              echo '<a href="login_form.php">Login</a>
+              <a href="register_form.php">Sign Up</a>';
+
+            }
+            ?>
           </div>
         </div>
       </div>
@@ -47,29 +68,16 @@
       <div class="mid">
         <div class="between25"></div>
 
-        <div class="signup">
-          <p>Sign up</p>
-          <form class="signupform" action="index.html" method="post">
+        <div class="login">
+          <p>Login</p>
+          <form class="loginform" action="login_form.php" method="post">
             <label>Username:</label><br/>
-            <input type="text" name="username"><br/>
-
-            <label>Email address</label><br/>
-            <input type="email" name="emailadress"><br/>
+            <input type="text" name="username" required><br/>
 
             <label>Password:</label><br/>
-            <input type="password" name="password"><br/>
+            <input type="password" name="password" required><br/>
 
-            <label>Confirm password:</label><br/>
-            <input type="password" name="confirmpassword"><br/>
-
-            <label>First name</label> <label>Last name</label><br/>
-            <input type="text" name="firstname">
-            <input type="text" name="lastname"><br/>
-
-            <label>Birthday</label><br/>
-            <input type="date" name="birthday"><br/>
-
-            <input type="submit" value="Create account">
+            <button type="submit" name="login">login</button>
           </form>
         </div>
 
