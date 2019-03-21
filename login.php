@@ -10,6 +10,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if(!$result){ //User doesn't exist
   $_SESSION['message'] = "User with that username doesn't exist!";
+  $_SESSION['ErrorType'] = "login";
   header("location: error.php");
 }
 
@@ -23,6 +24,7 @@ else{ //user exists
     $_SESSION['first_name'] = $user['Firstname'];
     $_SESSION['last_name'] = $user['Lastname'];
     $_SESSION['email'] = $user['Email'];
+    $_SESSION['userId'] = $user['Id'];
 
     //This is how we know the user is logged in
     $_SESSION['logged_in'] = true;

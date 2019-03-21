@@ -72,6 +72,14 @@ session_start();
       if($_SESSION['ErrorType'] == "register"){
         echo '<a href="register_form.php"><button class="">Back to register!</button></a>';
       }
+
+      // ADD ERRORS for post_creation & noAccount
+
+
+
+
+
+
     }
     else{
       header("location: index.php");

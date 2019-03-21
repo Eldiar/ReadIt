@@ -43,7 +43,6 @@
       $_SESSION['message'] = 'Registration failed!';
       $_SESSION['ErrorType'] = "register";
       header("location: error.php");
+    }
   }
-
-}
 ?>
