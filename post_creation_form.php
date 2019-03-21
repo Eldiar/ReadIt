@@ -7,7 +7,11 @@ session_start();
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ReadIt - Post Creation</title>
+
+    <!-- CSS Link -->
+      <link rel="stylesheet" type="text/css" href="readitstyle.css">
   </head>
   <body>
     <body>
@@ -17,9 +21,9 @@ session_start();
             require 'post_creation.php';
           }
         }
-        if ($_SESSION['userId']){
-          $_POST['message'] = "You must be logged in to create a post!"
-          $_POST['ErrorType'] = "noAccount";
+        if (!$_SESSION['userId']){
+          $_SESSION['message'] = "You must be logged in to create a post!";
+          $_SESSION['ErrorType'] = "noAccount";
 
           header("location: error.php");
         }
@@ -47,7 +51,8 @@ session_start();
               <?php
               if($_SESSION['logged_in']==true){
                 echo '<a href="logout.php">Logout</a>
-                <a href="profile.php">Profile</a>';
+                <a href="profile.php">Profile</a>
+                <a href="post_creation_form.php">Post Creation</a>';
               }
               else{
                 echo '<a href="login_form.php">Login</a>
@@ -67,28 +72,37 @@ session_start();
 
           <div class="signup">
             <p>Create your post</p>
-            <?php
-            <form class="createpost" action="postcreation.php" method="post">
+
+            <form class="createpost" action="post_creation_form.php" method="post">
 
               <label>Title</label><br/>
-              <input type="text" name="postTitle" size="50" value="$_POST['postTitle']" required><br/>
+              <input type="text" name="postTitle" size="50" value="<?php echo $_SESSION['postTitle'];?>" placeholder="(Max. 40 Characters)" required><br/>
 
               <label>Post</label><br/>
-              <textarea name="postMessage" rows="12" cols="64" size="50" value="$_POST['postMessage']" required></textarea><br/>
+              <textarea name="postMessage" rows="12" cols="64" size="50" placeholder="(Max. 5000 Characters)" required><?php echo $_SESSION['postMessage'];?></textarea><br/>
 
-              <select name="postForum" class="forumselect" value="$_POST['postForum']" required>
-                <option value="#">select a forum</option>
-                <option value="test">Dit is een test</option>
+              <select name="postForum" class="forumselect" value="<?php echo $_SESSION['postForum']; ?>" required>
+                <option value="0">select a forum</option>
+                <option value="1">Testforum 1</option>
               </select>
 
               <button type="submit" name="createPost">Submit</button>
+              <!-- ADD EMPTYING CACHE BUTTON -->
 
             </form>
-            ?>
+
           </div>
 
           <div class="between25"></div>
 
         </div>
+        <?php
+          /*if (isset($_SESSION['postTitle']) || isset($_SESSION['postMessage']) || isset($_SESSION['postForum'])){
+            unset($_SESSION['postTitle']);
+            unset($_SESSION['postMessage']);
+            unset($_SESSION['postForum']);
+          }*/
+
+        ?>
   </body>
 </html>

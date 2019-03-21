@@ -72,13 +72,13 @@ session_start();
       if($_SESSION['ErrorType'] == "register"){
         echo '<a href="register_form.php"><button class="">Back to register!</button></a>';
       }
-
-      // ADD ERRORS for post_creation & noAccount
-
-
-
-
-
+      if($_SESSION['ErrorType'] == "noAccount"){
+        echo '<a href="register_form.php"><button class="">Register now!</button></a><br/>';
+        echo '<a href="login_form.php"><button class="">Login now!</button></a>';
+      }
+      if($_SESSION['ErrorType'] == "postCreation"){
+        echo '<a href="post_creation_form.php"><button class="">Back post creation!</button></a>';
+      }
 
     }
     else{

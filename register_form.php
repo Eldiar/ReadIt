@@ -7,13 +7,10 @@ session_start();
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ReadIt - Home</title>
+    <title>ReadIt - Register</title>
 
     <!-- CSS Link -->
       <link rel="stylesheet" type="text/css" href="readitstyle.css">
-    <!-- PHP Links -->
-
-    <!-- Javascript Links -->
 
   </head>
   <?php
@@ -50,7 +47,8 @@ session_start();
             <?php
             if($_SESSION['logged_in']==true){
               echo '<a href="logout.php">Logout</a>
-              <a href="profile.php">Profile</a>';
+              <a href="profile.php">Profile</a>
+              <a href="post_creation_form.php">Post Creation</a>';
             }
             else{
               echo '<a href="login_form.php">Login</a>
