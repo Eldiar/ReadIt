@@ -14,7 +14,7 @@ $titleLength = strlen($postTitle);
 
 
 // Post title length check
-if ($titleLength > 3) {
+if ($titleLength > 40) {
   $_SESSION['message'] = "The title cannot be longer than 40 characters! (including spaces)";
   $_SESSION['ErrorType'] = "postCreation";
 
