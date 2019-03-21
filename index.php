@@ -48,7 +48,6 @@ session_start();
             else{
               echo '<a href="login_form.php">Login</a>
               <a href="register_form.php">Sign Up</a>';
-
             }
             ?>
           </div>

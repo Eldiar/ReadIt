@@ -71,10 +71,13 @@ DROPDOWN STYLE
 */
 .accountbarplaceholder{
   /*Positioning*/
-  flex-basis: 65%;
+  flex-basis: 10%;
 
   /*Style*/
   background-color: inherit;
+}
+.accountbarplaceholder2{
+  flex-basis: 5%;
 }
 .accountbar{
   /*Positioning*/

@@ -46,7 +46,6 @@ else {
     //Get post ID of the post that was just created
     $stmt = $db->prepare("SELECT Post.Id FROM Post WHERE Post.UserId = :userId ORDER BY Post.Datum DESC LIMIT 1");
     $stmt->execute(array(':userId' => $userId));
-
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     header("location: viewpost.php?Id=" . $result['Id'] . " ");
