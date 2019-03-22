@@ -88,9 +88,16 @@ session_start();
                 <span class='postdate'>".$result[PostDate]."</span>
               </div>
               <p class='posttext'>".$result[PostMessage]."</p>
+              <form action='index.php' method='POST'>
+              <input type='submit' name='".$i."' value='Like'/>
+              </form>
             </div>
           ";
+          if(isset($_POST[$i])){
+            $Like_sql = $db->prepare("INSERT INTO `Likes`(`PostId`, `UserId`) VALUES ($result[PostId],1)");
+            $Like_sql->execute();
           }
+        }
          ?>
         </div>
 
