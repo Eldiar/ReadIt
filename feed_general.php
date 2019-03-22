@@ -79,15 +79,8 @@ session_start();
             $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, User.Username As Username FROM Post,User WHERE Post.UserId=User.Id ORDER BY Datum DESC LIMIT $i,1");
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-/*
-            if (!empty($result)){
-              $_SESSION['message'] = "result is not set";
-              $_SESSION['ErrorType'] = "noDataRetrieved";
 
-              header("location: error.php");
-            }
-*/
-          echo $result['PostTitle'] . "<br/>";
+            echo $result['PostTitle'] . "<br/>";
 /*
           <div class='post'>
               <div class='postheader'>
