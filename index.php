@@ -72,16 +72,26 @@ session_start();
 
         <!-- Main feed-->
         <div class="main">
+          <?php
 
-            <div class="post">
-              <div class="postheader">
-                <a href="#" class="posttitle"><b>Longer titel than usual on this website</b></a>
-                <a href="#" class="postuser">Username</a>
-                <span class="postdate">dd-mm-yyyy</span>
+          for ($i = 0; $i <= 19; $i++) {
+
+            $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, User.Username As Username FROM Post,User WHERE Post.UserId=User.Id ORDER BY Datum DESC LIMIT $i,1");
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            echo "
+          <div class='post'>
+              <div class='postheader'>
+                <a href='viewpost.php?Id=".$result[PostId]."' class='posttitle'><b>".$result[PostTitle]."</b></a>
+                <a href='#' class='postuser'>".$result[Username]."</a>
+                <span class='postdate'>".$result[PostDate]."</span>
               </div>
-              <p class="posttext">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <p class='posttext'>".$result[PostMessage]."</p>
             </div>
-
+          ";
+          }
+         ?>
         </div>
 
         <!--Flex space filler-->
