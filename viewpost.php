@@ -11,9 +11,33 @@ session_start();
   $stmt->execute(array(':postId' => $postId));
   $post = $stmt->fetch(PDO::FETCH_ASSOC);
 
-  if(!$post){ //User doesn't exist
+  // Post details (Username, Date, Likes)
+
+  if(!$post){ //Post doesn't exist
     $_SESSION['message'] = "Oops! It looks like you have searched for a post that does not exist.";
     $_SESSION['ErrorType'] = "nonExistingPost";
+    header("location: error.php");
+  }
+
+  // Retrieving User Data
+  $stmt = $db->prepare("SELECT User.Id, User.Username FROM User, Post WHERE Post.UserId = User.Id AND Post.Id = :postId");
+  $stmt->execute(array(':postId' => $postId));
+  $userdata = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  if(!$userdata){ //User doesn't exist
+    $_SESSION['message'] = "Oops! Something went wrong retrieving the post data.";
+    $_SESSION['ErrorType'] = "retrievingUserData";
+    header("location: error.php");
+  }
+
+  // Retrieving Amount Of Likes
+  $stmt = $db->prepare("SELECT COUNT(Likes.PostId) AS Likes FROM Likes WHERE Likes.PostId = :postId");
+  $stmt->execute(array(':postId' => $postId));
+  $likes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  if(!$likes){ //User doesn't exist
+    $_SESSION['message'] = "Oops! Something went wrong retrieving the post data.";
+    $_SESSION['ErrorType'] = "retrievingUserData";
     header("location: error.php");
   }
 ?>
@@ -72,8 +96,13 @@ session_start();
 
            <div class="between7-5"></div>
 
+
            <div class="maintop">
-             <?php echo "<p>" . $post['Title'] . "</p>" ?>
+             <?php
+              // Echoing the post title
+              echo "<p>" . $post['Title'] . "</p>"
+
+              ?>
            </div>
 
            <div class="between7-5"></div>
@@ -82,13 +111,21 @@ session_start();
         <div class="mid">
           <div class="between7-5"></div>
 
-          <div class="post">
-            <div class="postheader">
-              <a href="#" class="posttitle"><b>Longer titel than usual on this website</b></a>
-              <a href="#" class="postuser">Username</a>
-              <span class="postdate">dd-mm-yyyy</span>
-            </div>
-            <p class="posttext">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <div class="viewpost standarpostheight">
+            <?php
+
+            // Echoing the post message
+            echo '<p>' . $post['Message'] . '</p>';
+
+            // Echoing post information (User, datetime)
+            echo '<p> Post created by: <a href="profile.php?UserId=' . $userdata['Id'] . '" >' . $userdata['Username'] . '</a> On: ' . $post['Datum'] . '</p>';
+
+            // Echoing the amount of likes a post has
+            echo '<p> This post is liked by: ' . $likes['Likes'] . ' people.';
+
+            // ADD LIKE BUTTON HERE!
+
+            ?>
           </div>
 
           <div class="between7-5"></div>

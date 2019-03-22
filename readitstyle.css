@@ -373,9 +373,9 @@ LOGIN / SIGNUP STYLE
 POSTS
 -------------------------------------------------
 */
-.postpage{
+.viewpost{
   /*Positioning*/
-  flex-basis: 75%;
+  flex-basis: 85%;
 
   /*Style*/
   background-color:#f3f3f3;
@@ -385,6 +385,15 @@ POSTS
   border-radius: 0.2em;
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);
   text-align: center;
+}
+
+.viewpost p{
+  margin-left: 3em;
+  margin-right: 3em;
+}
+
+.standarpostheight{
+  height: 500px;
 }
 
 /*
