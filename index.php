@@ -75,29 +75,64 @@ session_start();
           <?php
 
           for ($i = 0; $i <= 19; $i++) {
+            $Liked = false;
 
             $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, User.Username As Username FROM Post,User WHERE Post.UserId=User.Id ORDER BY Datum DESC LIMIT $i,1");
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            echo "
+            if (empty($_SESSION['userId'])) {
+              $Liked = true;
+            }
+
+            $Likedsql = $db->prepare("SELECT * FROM `Likes` WHERE PostId=$result[PostId] AND UserId=:userId");
+            $Likedsql->execute(array('userId' => $_SESSION['userId']));
+            $Likedcheck = $Likedsql->fetch(PDO::FETCH_ASSOC);
+            if (!empty($Likedcheck)){
+              $Liked = true;
+            } else {
+            if(isset($_POST[$i])){
+              $Like_sql = $db->prepare("INSERT INTO `Likes`(`PostId`, `UserId`) VALUES (:PostId, :userId)");
+              $Like_sql->execute(array(':PostId' => $result['PostId'], ':userId' => $_SESSION['userId']));
+              $Liked = true;
+            }
+          }
+
+          $stmt = $db->prepare("SELECT COUNT(Likes.PostId) AS Likes FROM Likes WHERE Likes.PostId = :postId");
+          $stmt->execute(array(':postId' => $result['PostId']));
+          $likes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($Liked == False) {
+
+          echo "
           <div class='post'>
               <div class='postheader'>
-                <a href='viewpost.php?Id=".$result[PostId]."' class='posttitle'><b>".$result[PostTitle]."</b></a>
-                <a href='#' class='postuser'>".$result[Username]."</a>
-                <span class='postdate'>".$result[PostDate]."</span>
+                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
+                <a href='profile.php?Id=".$_SESSION['userId']."' class='postuser'>".$result['Username']."</a>
+                <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".$result[PostMessage]."</p>
+              <p class='posttext'>".$result['PostMessage']."</p>
               <form action='index.php' method='POST'>
-              <input type='submit' name='".$i."' value='Like'/>
+              <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."'/>
               </form>
             </div>
           ";
-          if(isset($_POST[$i])){
-            $Like_sql = $db->prepare("INSERT INTO `Likes`(`PostId`, `UserId`) VALUES ($result[PostId],1)");
-            $Like_sql->execute();
-          }
-        }
+} else {
+          echo "
+          <div class='post'>
+              <div class='postheader'>
+                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
+                <a href='profile.php?Id=".$_SESSION['userId']."' class='postuser'>".$result['Username']."</a>
+                <span class='postdate'>".$result['PostDate']."</span>
+              </div>
+              <p class='posttext'>".$result['PostMessage']."</p>
+              <form action='index.php' method='POST'>
+              <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
+              </form>
+            </div>
+        ";
+    }
+}
          ?>
         </div>
 
