@@ -21,7 +21,7 @@ session_start();
             require 'post_creation.php';
           }
         }
-        if (!$_SESSION['userId']){
+        if (!$_SESSION['logged_in']){
           $_SESSION['message'] = "You must be logged in to create a post!";
           $_SESSION['ErrorType'] = "noAccount";
 

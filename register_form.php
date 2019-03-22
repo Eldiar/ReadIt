@@ -72,19 +72,19 @@ session_start();
           <p>Sign up</p>
           <form class="signupform" action="register_form.php" method="post">
             <label>Username:</label><br/>
-            <input type="text" name="username" required><br/>
+            <input type="text" name="username" placeholder="(max. 16 characters)" required><br/>
 
             <label>Email address</label><br/>
-            <input type="email" name="email" required><br/>
+            <input type="email" name="email" placeholder="(max. 100 characters)" required><br/>
 
             <label>Password:</label><br/>
-            <input type="password" name="password" required><br/>
+            <input type="password" name="password"placeholder="********" required><br/>
 
             <label>First name</label><br/>
-            <input type="text" name="first_name"><br/>
+            <input type="text" name="first_name" placeholder="(max. 30 characters)"><br/>
 
             <label>Last name</label><br/>
-            <input type="text" name="last_name"><br/>
+            <input type="text" name="last_name" placeholder="(max. 40 characters)"><br/>
 
             <label>Birthday</label><br/>
             <input type="date" name="birthday" required><br/>

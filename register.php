@@ -1,12 +1,5 @@
 <?php
 
-  //Set session variables for use on profile page
-  $_SESSION['username'] = $_POST['username'];
-  $_SESSION['email'] = $_POST['email'];
-  $_SESSION['first_name'] = $_POST['first_name'];
-  $_SESSION['last_name'] = $_POST['last_name'];
-  $_SESSION['birthday'] = $_POST['birthday'];
-
   //Set variables for local use
   $username =$_POST['username'];
   $email = $_POST['email'];
@@ -14,6 +7,33 @@
   $last_name = $_POST['last_name'];
   $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
   $birthday = $_POST['birthday'];
+
+  $usernamelength = strlen($username);
+  $emaillength = strlen($email);
+  $first_namelength = strlen($first_name);
+  $last_namelength = strlen($last_name);
+  $passwordlength = strlen($password);
+
+  if ($usernamelength > 16){
+    $_SESSION['message'] = 'This username is too long!';
+    $_SESSION['ErrorType'] = "register";
+    header("location: error.php");
+  }
+  elseif ($emaillength > 100) {
+    $_SESSION['message'] = 'This email is too long!';
+    $_SESSION['ErrorType'] = "register";
+    header("location: error.php");
+  }
+  elseif ($first_namelength > 30) {
+    $_SESSION['message'] = 'This first name is too long!';
+    $_SESSION['ErrorType'] = "register";
+    header("location: error.php");
+  }
+  elseif ($last_namelength > 40) {
+    $_SESSION['message'] = 'This last name is too long!';
+    $_SESSION['ErrorType'] = "register";
+    header("location: error.php");
+  }
 
   // Check if user with that email already exists
   $stmt = $db->prepare("SELECT * FROM User WHERE User.Username= :username");
@@ -35,8 +55,7 @@
     "VALUES (:username, :password, :birthday, :firstname, :lastname, :email)");
 
     if($stmt->execute(array(':username' => $username, ':password'=> $password, ':birthday'=>$birthday, ':firstname'=>$first_name, ':lastname'=>$last_name, ':email'=>$email))){
-      $_SESSION['logged_in'] = true;
-      header("location: profile.php");
+      header("location: login_form.php");
     }
 
     else {
