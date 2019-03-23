@@ -48,6 +48,10 @@ else {
     $stmt->execute(array(':userId' => $userId));
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // Auto like post
+    $Like_sql = $db->prepare("INSERT INTO `Likes`(`PostId`, `UserId`) VALUES (:PostId, :userId)");
+    $Like_sql->execute(array(':PostId' => $result['Id'], ':userId' => $_SESSION['userId']));
+
     header("location: viewpost.php?Id=" . $result['Id'] . " ");
   }
 

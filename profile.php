@@ -180,12 +180,12 @@ if(!$profile){ //User doesn't exist
         <div class='sidebar'>
           <div class='sidebar-post'>
             <p class='sidebar-post-title'>".$profile['Username']."</p>
-            <p class='sidebar-post-text'>First Name:".$profile['Firstname']."</p>
-            <p class='sidebar-post-text'>Last Name:".$profile['Lastname']."</p>
-            <p class='sidebar-post-text'>Birthday:".$profile['Birthday']."</p>
-            <p class='sidebar-post-text'>Age:".$profile['Age']."</p>
-            <p class='sidebar-post-text'>Likes given:".$givenlikes['GivenLikes']."</p>
-            <p class='sidebar-post-text'>Likes Recieved:".$recievedlikes['RecievedLikes']."</p>
+            <p class='sidebar-post-text'>First Name: ".$profile['Firstname']."</p>
+            <p class='sidebar-post-text'>Last Name: ".$profile['Lastname']."</p>
+            <p class='sidebar-post-text'>Birthday: ".$profile['Birthday']."</p>
+            <p class='sidebar-post-text'>Age: ".$profile['Age']."</p>
+            <p class='sidebar-post-text'>Likes given: ".$givenlikes['GivenLikes']."</p>
+            <p class='sidebar-post-text'>Likes Recieved: ".$recievedlikes['RecievedLikes']."</p>
           </div>
         </div>"
 
