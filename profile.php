@@ -3,6 +3,22 @@ require 'db.php';
 session_start();
 ?>
 
+<?php
+//Checking if the linked post exists
+$profileId = $_GET['Id'];
+
+$stmt = $db->prepare("SELECT Id, Username, Birthday, Firstname, Lastname, TIMESTAMPDIFF(YEAR, Birthday, CURDATE()) AS Age FROM User WHERE User.Id = :profileId");
+$stmt->execute(array(':profileId' => $profileId));
+$profile = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if(!$profile){ //User doesn't exist
+  $_SESSION['message'] = "Oops! The user you looked for doesnt seem to exist.";
+  $_SESSION['ErrorType'] = "retrievingUserData";
+  header("location: error.php");
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -60,11 +76,13 @@ session_start();
       <!-- Page indication-->
       <div class="top">
         <div class="between7-5"></div>
-
-        <div class="maintop">
-          <p>xxxxxxx's profile</p>
-
-        </div>
+        <?php
+          echo"
+            <div class='maintop'>
+              <p>".$profile[Username]."'s profile</p>
+            </div>
+          "
+        ?>
 
         <div class="between7-5"></div>
       </div>
@@ -78,32 +96,100 @@ session_start();
         <!-- Main feed-->
         <div class="main">
 
-            <div class="post">
-              <div class="postheader">
-                <a href="#" class="posttitle"><b>Longer titel than usual on this website</b></a>
-                <a href="#" class="postuser">Username</a>
-                <span class="postdate">dd-mm-yyyy</span>
-              </div>
-              <p class="posttext">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </div>
+          <?php
 
+          for ($i = 0; $i <= 19; $i++) {
+            $Liked = false;
+
+            $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User WHERE Post.UserId=User.Id AND Post.UserId = :profileId ORDER BY Datum DESC LIMIT $i,1");
+            $stmt->execute(array(':profileId' => $profileId));
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (empty($result)){
+              break;
+            }
+
+            if (empty($_SESSION['userId'])) {
+              $Liked = true;
+            }
+
+            $Likedsql = $db->prepare("SELECT * FROM `Likes` WHERE PostId=$result[PostId] AND UserId=:userId");
+            $Likedsql->execute(array(':userId' => $_SESSION['userId']));
+            $Likedcheck = $Likedsql->fetch(PDO::FETCH_ASSOC);
+            if (!empty($Likedcheck)){
+              $Liked = true;
+            } else {
+            if(isset($_POST[$i])){
+              $Like_sql = $db->prepare("INSERT INTO `Likes`(`PostId`, `UserId`) VALUES (:PostId, :userId)");
+              $Like_sql->execute(array(':PostId' => $result['PostId'], ':userId' => $_SESSION['userId']));
+              $Liked = true;
+            }
+          }
+
+          $stmt = $db->prepare("SELECT COUNT(Likes.PostId) AS Likes FROM Likes WHERE Likes.PostId = :postId");
+          $stmt->execute(array(':postId' => $result['PostId']));
+          $likes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+          $stmt = $db->prepare("SELECT COUNT(Likes.PostId) AS GivenLikes FROM Likes WHERE Likes.UserId = :profileId");
+          $stmt->execute(array(':profileId' => $profileId));
+          $givenlikes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+          $stmt = $db->prepare("SELECT COUNT(Likes.PostId) AS RecievedLikes FROM Likes, User, Post WHERE Likes.PostId=Post.Id AND Post.UserId=User.Id AND User.Id = :profileId");
+          $stmt->execute(array(':profileId' => $profileId));
+          $recievedlikes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($Liked == False) {
+
+          echo "
+          <div class='post'>
+              <div class='postheader'>
+                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
+                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".$result['Username']."</a>
+                <span class='postdate'>".$result['PostDate']."</span>
+              </div>
+              <p class='posttext'>".$result['PostMessage']."</p>
+              <form action='index.php' method='POST'>
+              <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."'/>
+              </form>
+            </div>
+          ";
+        } else {
+          echo "
+          <div class='post'>
+              <div class='postheader'>
+                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
+                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".$result['Username']."</a>
+                <span class='postdate'>".$result['PostDate']."</span>
+              </div>
+              <p class='posttext'>".$result['PostMessage']."</p>
+              <form action='index.php' method='POST'>
+              <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
+              </form>
+            </div>
+        ";
+        }
+        }
+         ?>
         </div>
 
         <!--Flex space filler-->
         <div class="between5"></div>
 
         <!-- Sidebar content-->
-        <div class="sidebar">
-          <div class="sidebar-post">
-            <p class="sidebar-post-title">xxxxxxx</p>
-            <p class="sidebar-post-text">First Name:</p>
-            <p class="sidebar-post-text">Last Name:</p>
-            <p class="sidebar-post-text">Birthday:</p>
-            <p class="sidebar-post-text">Age:</p>
-            <p class="sidebar-post-text">Likes given:</p>
-            <p class="sidebar-post-text">Likes Recieved:</p>
+        <?php
+        echo "
+        <div class='sidebar'>
+          <div class='sidebar-post'>
+            <p class='sidebar-post-title'>".$profile['Username']."</p>
+            <p class='sidebar-post-text'>First Name:".$profile['Firstname']."</p>
+            <p class='sidebar-post-text'>Last Name:".$profile['Lastname']."</p>
+            <p class='sidebar-post-text'>Birthday:".$profile['Birthday']."</p>
+            <p class='sidebar-post-text'>Age:".$profile['Age']."</p>
+            <p class='sidebar-post-text'>Likes given:".$givenlikes['GivenLikes']."</p>
+            <p class='sidebar-post-text'>Likes Recieved:".$recievedlikes['RecievedLikes']."</p>
           </div>
-        </div>
+        </div>"
+
+        ?>
 
         <!--Flex space filler-->
         <div class="between7-5"></div>

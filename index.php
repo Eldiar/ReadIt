@@ -77,10 +77,13 @@ session_start();
           for ($i = 0; $i <= 19; $i++) {
             $Liked = false;
 
-            $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, User.Username As Username FROM Post,User WHERE Post.UserId=User.Id ORDER BY Datum DESC LIMIT $i,1");
+            $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User WHERE Post.UserId=User.Id ORDER BY Datum DESC LIMIT $i,1");
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
+            if (empty($result)){
+              break;
+            }
+            
             if (empty($_SESSION['userId'])) {
               $Liked = true;
             }
@@ -108,7 +111,7 @@ if ($Liked == False) {
           <div class='post'>
               <div class='postheader'>
                 <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
-                <a href='profile.php?Id=".$_SESSION['userId']."' class='postuser'>".$result['Username']."</a>
+                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".$result['Username']."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
               <p class='posttext'>".$result['PostMessage']."</p>
@@ -122,7 +125,7 @@ if ($Liked == False) {
           <div class='post'>
               <div class='postheader'>
                 <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
-                <a href='profile.php?Id=".$_SESSION['userId']."' class='postuser'>".$result['Username']."</a>
+                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".$result['Username']."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
               <p class='posttext'>".$result['PostMessage']."</p>
