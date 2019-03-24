@@ -57,9 +57,9 @@ if(!$profile){ //User doesn't exist
           <div class="dropdown-content">
             <?php
             if($_SESSION['logged_in']==true){
-              echo '<a href="logout.php">Logout</a>
-              <a href="profile.php">Profile</a>
-              <a href="post_creation_form.php">Post Creation</a>';
+              echo "<a href='logout.php'>Logout</a>
+              <a href='profile.php?Id=".$_SESSION['userId']."'>Profile</a>
+              <a href='post_creation_form.php'>Post Creation</a>";
             }
             else{
               echo '<a href="login_form.php">Login</a>
@@ -147,7 +147,7 @@ if(!$profile){ //User doesn't exist
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
               <p class='posttext'>".$result['PostMessage']."</p>
-              <form action='index.php' method='POST'>
+              <form action='profile.php?Id=".$profileId."' method='POST'>
               <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."'/>
               </form>
             </div>
@@ -161,7 +161,7 @@ if(!$profile){ //User doesn't exist
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
               <p class='posttext'>".$result['PostMessage']."</p>
-              <form action='index.php' method='POST'>
+              <form action='profile.php?Id=".$profileId."' method='POST'>
               <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
             </div>

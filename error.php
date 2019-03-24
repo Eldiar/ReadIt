@@ -42,8 +42,8 @@ session_start();
           <a href="register_form.php">Sign Up</a>';
           }
           else{
-          echo '<a href="logout.php">Logout</a>
-          <a href="profile.php">Profile</a>';
+          echo "<a href='logout.php'>Logout</a>
+          <a href='profile.php?Id=".$_SESSION['userId']."'>Profile</a>";
           }
           ?>
         </div>
