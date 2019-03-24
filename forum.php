@@ -23,7 +23,7 @@ session_start();
 
       <div class="navbar navhover">
         <a href="index.php">Home</a>
-        <a href="forums.php">Forums</a>
+        <a href="#">Forums</a>
         <a href="topfeed.php">Top</a>
       </div>
 
@@ -91,6 +91,8 @@ session_start();
         <!-- Main feed-->
         <div class="main">
           <?php
+          $forumId = $_GET['Id'];
+
           $timeDifference = 999999999;
           $orderType = 'Datum';
           if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -128,7 +130,7 @@ session_start();
           for ($i = 0; $i <= 19; $i++) {
             $Liked = false;
 
-            $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Likes WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Likes.PostId GROUP BY Post.Id ORDER BY $orderType DESC LIMIT $i,1");
+            $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Likes WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Likes.PostId AND Post.ForumId=$forumId GROUP BY Post.Id ORDER BY $orderType DESC LIMIT $i,1");
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             if (empty($result)){
@@ -194,12 +196,20 @@ if ($Liked == False) {
         <div class="between5"></div>
 
         <!-- Sidebar content-->
-        <div class="sidebar">
-          <div class="sidebar-post">
-            <p class="sidebar-post-title">Top forums</p>
-            <p class="sidebar-post-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <?php
+        $stmt = $db->prepare("SELECT Forum.Id AS ForumId, Forum.Title AS ForumTitle, Forum.Description AS ForumDescription FROM Forum WHERE Forum.Id=$forumId");
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        echo"
+        <div class='sidebar'>
+          <div class='sidebar-post'>
+            <p class='sidebar-post-title'>".$result['ForumTitle']."</p>
+            <p class='sidebar-post-text'>".$result['ForumDescription']."</p>
           </div>
         </div>
+        ";
+        ?>
 
         <!--Flex space filler-->
         <div class="between7-5"></div>

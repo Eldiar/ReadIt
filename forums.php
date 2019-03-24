@@ -57,7 +57,7 @@ session_start();
         <div class="between7-5"></div>
 
         <div class="maintop">
-          <p>Home</p>
+          <p>Forums</p>
 
         </div>
 
@@ -76,19 +76,21 @@ session_start();
 
           for ($i = 0; $i <= 19; $i++) {
 
-            $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, User.Username As Username FROM Post,User WHERE Post.UserId=User.Id ORDER BY Datum DESC LIMIT $i,1");
+            $stmt = $db->prepare("SELECT Forum.Id AS ForumId, Forum.Title AS ForumTitle, Forum.Description AS ForumDescription FROM Forum ORDER BY Title LIMIT $i,1");
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            if (empty($result)){
+              break;
+            }
+
             echo "
-          <div class='post'>
-              <div class='postheader'>
-                <a href='viewpost.php?Id=".$result[PostId]."' class='posttitle'><b>".$result[PostTitle]."</b></a>
-                <a href='#' class='postuser'>".$result[Username]."</a>
-                <span class='postdate'>".$result[PostDate]."</span>
+              <div class='post'>
+                <div class='postheader'>
+                  <a href='forum.php?Id=".$result['ForumId']."' class='posttitle'><b>".$result['ForumTitle']."</b></a>
+                </div>
+                  <p class='posttext'>".$result['ForumDescription']."</p>
               </div>
-              <p class='posttext'>".$result[PostMessage]."</p>
-            </div>
           ";
           }
          ?>
@@ -97,13 +99,6 @@ session_start();
         <!--Flex space filler-->
         <div class="between5"></div>
 
-        <!-- Sidebar content-->
-        <div class="sidebar">
-          <div class="sidebar-post">
-            <p class="sidebar-post-title">Top forums</p>
-            <p class="sidebar-post-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          </div>
-        </div>
 
         <!--Flex space filler-->
         <div class="between7-5"></div>

@@ -40,6 +40,7 @@ session_start();
     $_SESSION['ErrorType'] = "retrievingUserData";
     header("location: error.php");
   }
+
 ?>
 
 <!DOCTYPE html>
@@ -124,6 +125,67 @@ session_start();
             echo '<p> This post is liked by: ' . $likes['Likes'] . ' people.';
 
             // ADD LIKE BUTTON HERE!
+            echo "
+            <form class='createpost' action='viewpost.php?Id=".$postId."' method='post'>
+
+              <textarea name='commentMessage' rows='6' cols='64' size='50' placeholder='Comment here' required></textarea><br/>
+
+              <input type='submit' name='createComment' value='Comment'/>
+
+            </form>
+            ";
+            $Commented = false;
+            for ($i = 0; $i <= 19; $i++) {
+
+              $stmt = $db->prepare("SELECT User.Username As Username, User.Id AS CommenterId, Comment.Datum As CommentDate, Comment.Message As CommentMessage FROM Comment,User WHERE Comment.UserId=User.Id AND Comment.PostId = $postId ORDER BY Comment.Datum DESC LIMIT $i,1");
+              $stmt->execute();
+              $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+              if (empty($result)){
+                break;
+              }
+
+              if (isset($_POST['createComment'])) {
+                if ($result['CommentMessage'] == $_POST['commentMessage']) {
+                  $Commented = true;
+                }
+              }
+              }
+
+              if ($Commented == false) {
+                if (isset($_POST['createComment'])) {
+                  $Comment_sql = $db->prepare("INSERT INTO `Comment`(`PostId`, `UserId`, `Message`) VALUES ($postId, :userId, :commentMessage)");
+                  $Comment_sql->execute(array(':userId' => $_SESSION['userId'], ':commentMessage' => $_POST['commentMessage']));
+                }
+              }
+
+
+              for ($i = 0; $i <= 19; $i++) {
+
+                $stmt = $db->prepare("SELECT User.Username As Username, User.Id AS CommenterId, Comment.Datum As CommentDate, Comment.Message As CommentMessage FROM Comment,User WHERE Comment.UserId=User.Id AND Comment.PostId = $postId ORDER BY Comment.Datum DESC LIMIT $i,1");
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if (empty($result)){
+                  break;
+                }
+
+                if (isset($_POST['createComment'])) {
+                  if ($result['CommentMessage'] == $_POST['commentMessage']) {
+                    $Commented = true;
+                  }
+                }
+
+                echo"
+                <div class='post'>
+                    <div class='postheader'>
+                      <a href='profile.php?Id=".$result['CommenterId']."' class='postuser'>".$result['Username']."</a>
+                      <span class='postdate'>".$result['CommentDate']."</span>
+                    </div>
+                    <p class='posttext'>".$result['CommentMessage']."</p>
+                  </div>
+                  ";
+                }
 
             ?>
           </div>
