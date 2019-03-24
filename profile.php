@@ -46,7 +46,7 @@ if(!$profile){ //User doesn't exist
 
       <div class="navbar navhover">
         <a href="index.php">Home</a>
-        <a href="#">Forums</a>
+        <a href="forums.php">Forums</a>
         <a href="topfeed.php">Top</a>
       </div>
 

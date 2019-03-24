@@ -39,7 +39,7 @@ session_start();
 
         <div class="navbar navhover">
           <a href="index.php">Home</a>
-          <a href="#">Forums</a>
+          <a href="forums.php">Forums</a>
           <a href="topfeed.php">Top</a>
         </div>
 
@@ -82,8 +82,20 @@ session_start();
               <textarea name="postMessage" rows="12" cols="64" size="50" placeholder="(Max. 4000 Characters)" required><?php echo $_SESSION['postMessage'];?></textarea><br/>
 
               <select name="postForum" class="forumselect" value="<?php echo $_SESSION['postForum']; ?>" required>
-                <option value="0">select a forum</option>
-                <option value="1">Testforum 1</option>
+                <?php
+                for ($i = 1; $i <= 200; $i++) {
+                  $stmt = $db->prepare("SELECT Forum.Id AS ForumId, Forum.Title AS ForumTitle FROM Forum ORDER BY Title LIMIT $i,1");
+                  $stmt->execute();
+                  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                  if (empty($result)){
+                    break;
+                  }
+                  echo"
+                <option value='".$result['ForumId']."'>".$result['ForumTitle']."</option>
+                ";
+                }
+                ?>
               </select>
 
               <button type="submit" name="createPost">Submit</button>
