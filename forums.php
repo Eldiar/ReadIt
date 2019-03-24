@@ -75,6 +75,7 @@ session_start();
           <?php
 
           for ($i = 0; $i <= 19; $i++) {
+            $Followed = false;
 
             $stmt = $db->prepare("SELECT Forum.Id AS ForumId, Forum.Title AS ForumTitle, Forum.Description AS ForumDescription FROM Forum ORDER BY Title LIMIT $i,1");
             $stmt->execute();
@@ -84,14 +85,57 @@ session_start();
               break;
             }
 
-            echo "
-              <div class='post'>
-                <div class='postheader'>
-                  <a href='forum.php?Id=".$result['ForumId']."' class='posttitle'><b>".$result['ForumTitle']."</b></a>
+            if (empty($_SESSION['userId'])) {
+              $Followed = true;
+            }
+
+            $Followedsql = $db->prepare("SELECT * FROM `Volgen` WHERE ForumId=$result[ForumId] AND UserId=:userId");
+            $Followedsql->execute(array('userId' => $_SESSION['userId']));
+            $Followedcheck = $Followedsql->fetch(PDO::FETCH_ASSOC);
+            if (!empty($Followedcheck)){
+              if(isset($_POST[$i])){
+                $unFollow_sql = $db->prepare("DELETE FROM `Volgen` WHERE Volgen.UserId = :userId AND Volgen.ForumId = :ForumId");
+                $unFollow_sql->execute(array(':ForumId' => $result['ForumId'], ':userId' => $_SESSION['userId']));
+              } else {
+                $Followed = true;
+              }
+            } else {
+            if(isset($_POST[$i])){
+              $Follow_sql = $db->prepare("INSERT INTO `Volgen`(`ForumId`, `UserId`) VALUES (:ForumId, :userId)");
+              $Follow_sql->execute(array(':ForumId' => $result['ForumId'], ':userId' => $_SESSION['userId']));
+              $Followed = true;
+            }
+          }
+
+          $stmt = $db->prepare("SELECT COUNT(Volgen.ForumId) AS Follows FROM Volgen WHERE Volgen.ForumId = :forumId");
+          $stmt->execute(array(':forumId' => $result['ForumId']));
+          $follows = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($Followed == false ) {
+              echo "
+                <div class='post'>
+                  <div class='postheader'>
+                    <a href='forum.php?Id=".$result['ForumId']."' class='posttitle'><b>".$result['ForumTitle']."</b></a>
+                  </div>
+                    <p class='posttext'>".$result['ForumDescription']."</p>
+                    <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
+                    <input type='submit' name='".$i."' value='Follow(".$follows['Follows'].")'/>
+                    </form>
                 </div>
-                  <p class='posttext'>".$result['ForumDescription']."</p>
-              </div>
-          ";
+            ";
+            }else {
+              echo "
+                <div class='post'>
+                  <div class='postheader'>
+                    <a href='forum.php?Id=".$result['ForumId']."' class='posttitle'><b>".$result['ForumTitle']."</b></a>
+                  </div>
+                    <p class='posttext'>".$result['ForumDescription']."</p>
+                    <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
+                    <input type='submit' name='".$i."' value='Follow(".$follows['Follows'].")' style='color:blue'/>
+                    </form>
+                </div>
+            ";
+            }
           }
          ?>
         </div>
