@@ -29,6 +29,16 @@ else{ //user exists
     //This is how we know the user is logged in
     $_SESSION['logged_in'] = true;
 
+    $Followedsql = $db->prepare("SELECT * FROM `PersoonVolgen` WHERE Volgend=:userId AND Gevolgd=:gevolgdId");
+    $Followedsql->execute(array(':userId' => $_SESSION['userId'], ':gevolgdId' => $_SESSION['userId']));
+    $Followedcheck = $Followedsql->fetch(PDO::FETCH_ASSOC);
+
+    if (empty($Followedcheck)) {
+      $Follow_sql = $db->prepare("INSERT INTO `PersoonVolgen`(`Volgend`, `Gevolgd`) VALUES (:ForumId, :userId)");
+      $Follow_sql->execute(array(':ForumId' => $_SESSION['userId'], ':userId' => $_SESSION['userId']));
+    }
+
+
     header("location: profile.php");
   }
 

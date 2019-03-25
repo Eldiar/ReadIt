@@ -41,6 +41,42 @@ session_start();
     header("location: error.php");
   }
 
+
+
+
+
+  $Followed = false;
+  $NonFollowed = false;
+
+  if (empty($_SESSION['userId'])) {
+    $NonFollowed = true;
+    $Followed = true;
+  }
+
+  $Followedsql = $db->prepare("SELECT * FROM `PersoonVolgen` WHERE Volgend=:userId AND Gevolgd=:gevolgdId");
+  $Followedsql->execute(array(':userId' => $_SESSION['userId'], ':gevolgdId' => $userdata['Id']));
+  $Followedcheck = $Followedsql->fetch(PDO::FETCH_ASSOC);
+  if (!empty($Followedcheck)){
+    if(isset($_POST['followclick'])){
+      $unFollow_sql = $db->prepare("DELETE FROM `PersoonVolgen` WHERE Volgend=:userId AND Gevolgd=:gevolgdId");
+      $unFollow_sql->execute(array(':userId' => $_SESSION['userId'], ':gevolgdId' => $userdata['Id']));
+    } else {
+      $Followed = true;
+    }
+  } else {
+  if(isset($_POST['followclick'])){
+    $Follow_sql = $db->prepare("INSERT INTO `PersoonVolgen`(`Volgend`, `Gevolgd`) VALUES (:userId, :gevolgdId)");
+    $Follow_sql->execute(array(':userId' => $_SESSION['userId'], ':gevolgdId' => $userdata['Id']));
+    $Followed = true;
+  }
+}
+
+$stmt = $db->prepare("SELECT COUNT(PersoonVolgen.Gevolgd) AS Follows FROM PersoonVolgen WHERE PersoonVolgen.Gevolgd = :gevolgdId ");
+$stmt->execute(array(':gevolgdId' => $userdata['Id']));
+$follows = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -139,6 +175,37 @@ session_start();
             echo '<p class="mainpost">' . $post['Message'] . '</p>';
 
             // Echoing post information (User, datetime)
+
+
+
+            if ($Followed == false ) {
+              echo"
+              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?UserId=".$userdata['Id']."' class='userlink'>" . $userdata['Username'] . "</a>
+              <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
+              <input type='submit' name='followclick' value='Follow(".$follows['Follows'].")'/>
+              </form>
+               On: " . $post['Datum'] . "</p></b>";
+
+            }elseif ($NonFollowed == false) {
+              echo"
+              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?UserId=".$userdata['Id']."' class='userlink'>" . $userdata['Username'] . "</a>
+              <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
+              <input type='submit' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
+              </form>
+               On: " . $post['Datum'] . "</p></b>";
+
+            }else {
+              echo"
+              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?UserId=".$userdata['Id']."' class='userlink'>" . $userdata['Username'] . "</a>
+              <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
+              <input type='submit' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
+              </form>
+               On: " . $post['Datum'] . "</p></b>";
+            }
+
+
+
+
             echo '<b><p class="extrainfo"> Post created by: <a class="userlink" href="profile.php?UserId=' . $userdata['Id'] . '" class="userlink" >' . $userdata['Username'] . '</a> On: ' . $post['Datum'] . '</p></b>';
 
             // Echoing the amount of likes a post has

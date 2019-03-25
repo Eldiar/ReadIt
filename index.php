@@ -36,7 +36,8 @@ session_start();
             if($_SESSION['logged_in']==true){
               echo "<a href='logout.php'>Logout</a>
               <a href='profile.php?Id=".$_SESSION['userId']."'>Profile</a>
-              <a href='post_creation_form.php'>Post Creation</a>";
+              <a href='post_creation_form.php'>Post Creation</a>
+              <a href='forum_creation_form.php'>Forum Creation</a>";
             }
             else{
               echo '<a href="login_form.php">Login</a>
@@ -129,24 +130,48 @@ session_start();
               $orderType = 'Datum';
             }
           }
+          $nofeedcheck = $db->prepare("SELECT * FROM `Volgen` WHERE UserId=:userId");
+          $nofeedcheck->execute(array('userId' => $_SESSION['userId']));
+          $nofeed = $nofeedcheck->fetch(PDO::FETCH_ASSOC);
 
+          $nopersoncheck = $db->prepare("SELECT * FROM `PersoonVolgen` WHERE Volgend=:userId AND Gevolgd<>:userId");
+          $nopersoncheck->execute(array('userId' => $_SESSION['userId']));
+          $noperson = $nopersoncheck->fetch(PDO::FETCH_ASSOC);
+
+          if (empty($nofeed) && empty($noperson)) {
+          echo "try following some forums or people. If you do so you will get a personalised feed here with only the things you want to see.";
+          }
           for ($i = 0; $i <= 19; $i++) {
             $Liked = false;
 
             if ($controverial == true) {
               if($_SESSION['logged_in']==true){
+
+
+                if (empty($nofeed) && empty($noperson)) {
+                $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comment WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comment.PostId GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
+                }else {
+
                 $userId = $_SESSION['userId'];
-                $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comment,Volgen WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comment.PostId AND Volgen.ForumId=Post.ForumId AND Volgen.UserId=$userId GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
+                $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comment,Volgen,PersoonVolgen WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comment.PostId AND Volgen.ForumId=Post.ForumId AND Post.UserId=PersoonVolgen.Gevolgd AND (Volgen.UserId=$userId OR PersoonVolgen.Volgend=$userId) GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
+              }
               }
               else{
                 $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comment WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comment.PostId GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
               }
             }else {
               if($_SESSION['logged_in']==true){
+                $nofeedcheck = $db->prepare("SELECT * FROM `Volgen` WHERE UserId=:userId");
+                $nofeedcheck->execute(array('userId' => $_SESSION['userId']));
+                $nofeed = $nofeedcheck->fetch(PDO::FETCH_ASSOC);
+
+                if (empty($nofeed) && empty($noperson)) {
+                $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Likes WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Likes.PostId GROUP BY Post.Id ORDER BY $orderType DESC LIMIT $i,1");
+                }else {
                 $userId = $_SESSION['userId'];
-                $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Likes,Volgen WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Likes.PostId AND Volgen.ForumId=Post.ForumId AND Volgen.UserId=$userId GROUP BY Post.Id ORDER BY $orderType DESC LIMIT $i,1");
+                $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Likes,Volgen,PersoonVolgen WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Likes.PostId AND Volgen.ForumId=Post.ForumId AND Post.UserId=PersoonVolgen.Gevolgd AND (Volgen.UserId=$userId OR PersoonVolgen.Volgend=$userId) GROUP BY Post.Id ORDER BY $orderType DESC LIMIT $i,1");
                 }
-              else{
+                }  else{
                 $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Likes WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Likes.PostId GROUP BY Post.Id ORDER BY $orderType DESC LIMIT $i,1");
                 }
             }
