@@ -150,8 +150,27 @@ if ($Liked == False) {
         <div class="sidebar">
           <div class="sidebar-post">
             <p class="sidebar-post-title">Top forums</p>
-            <p class="sidebar-post-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          </div>
+            <?php
+            for ($i = 0; $i <= 9; $i++) {
+
+              $stmt = $db->prepare("SELECT Forum.Title AS ForumTitle, Forum.Id AS ForumId FROM Post, Forum WHERE Post.ForumId=Forum.Id GROUP BY Forum.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
+              $stmt->execute();
+              $Topforum = $stmt->fetch(PDO::FETCH_ASSOC);
+
+              $stmt = $db->prepare("SELECT COUNT(Volgen.ForumId) AS Follows FROM Volgen WHERE Volgen.ForumId = :forumId");
+              $stmt->execute(array(':forumId' => $Topforum['ForumId']));
+              $follows = $stmt->fetch(PDO::FETCH_ASSOC);
+
+              if (empty($Topforum)){
+                break;
+              }
+
+              echo "
+              <a class='sidebar-post-text' href='forum.php?Id=".$Topforum['ForumId']."'>".$Topforum['ForumTitle']."(".$follows['Follows'].")</a><br><br>
+              ";
+            }
+            ?>
+            </div>
         </div>
 
         <!--Flex space filler-->

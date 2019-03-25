@@ -76,6 +76,7 @@ session_start();
 
           for ($i = 0; $i <= 19; $i++) {
             $Followed = false;
+            $NonFollowed = false;
 
             $stmt = $db->prepare("SELECT Forum.Id AS ForumId, Forum.Title AS ForumTitle, Forum.Description AS ForumDescription FROM Forum ORDER BY Title LIMIT $i,1");
             $stmt->execute();
@@ -86,6 +87,7 @@ session_start();
             }
 
             if (empty($_SESSION['userId'])) {
+              $NonFollowed = true;
               $Followed = true;
             }
 
@@ -123,7 +125,7 @@ session_start();
                     </form>
                 </div>
             ";
-            }else {
+          }elseif ($NonFollowed == false) {
               echo "
                 <div class='post'>
                   <div class='postheader'>
@@ -135,7 +137,19 @@ session_start();
                     </form>
                 </div>
             ";
-            }
+          }else {
+            echo "
+              <div class='post'>
+                <div class='postheader'>
+                  <a href='forum.php?Id=".$result['ForumId']."' class='posttitle'><b>".$result['ForumTitle']."</b></a>
+                </div>
+                  <p class='posttext'>".$result['ForumDescription']."</p>
+                  <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
+                  <input type='submit' name='".$i."' value='Follow(".$follows['Follows'].")' disabled/>
+                  </form>
+              </div>
+          ";
+          }
           }
          ?>
         </div>
