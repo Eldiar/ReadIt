@@ -42,6 +42,7 @@ session_start();
               echo '<a href="login_form.php">Login</a>
               <a href="register_form.php">Sign Up</a>';
             }
+            $forumId = $_GET['Id'];
             ?>
           </div>
         </div>
@@ -60,23 +61,29 @@ session_start();
 
         <div class="maintop">
           home
-          <form action="index.php" method="get">
-            <select name="Sort_Type">
-              <option value="New">New</option>
-              <option value="Top">Top</option>
-              <option value="controversial">Controversial(Doesnt work yet so will show New)</option>
-              <option value="Hot">Hot</option>
+          <?php
+          echo"
+          <form action='forum.php?Id= ". $forumId . "' method='get'>
+            <select name='Sort_Type'>
+              <option value='New'>New</option>
+              <option value='Top'>Top</option>
+              <option value='controversial'>Controversial</option>
+              <option value='Hot'>Hot</option>
             </select>
-            <select name="Sort_Date">
-              <option value="Today">Today</option>
-              <option value="Pastweek">Past Week</option>
-              <option value="Pastmonth">Past Month</option>
-              <option value="Pastyear">Past Year</option>
-              <option value="Alltime">All Time</option>
+            <select name='Sort_Date'>
+              <option value='Today'>Today</option>
+              <option value='Pastweek' selected>Past Week</option>
+              <option value='Pastmonth'>Past Month</option>
+              <option value='Pastyear'>Past Year</option>
+              <option value='Alltime'>All Time</option>
             </select>
-            <input type="submit" value='Sort'>
+            <select class='invisible' name='Id'>
+              <option value='" . $forumId . "'></option>
+            </select>
+            <input type='submit' value='Sort'>
          </form>
-
+         ";
+         ?>
         </div>
 
         <div class="between7-5"></div>
@@ -91,10 +98,9 @@ session_start();
         <!-- Main feed-->
         <div class="main">
           <?php
-          $forumId = $_GET['Id'];
-
-          $timeDifference = 999999999;
+          $controverial = false;
           $orderType = 'Datum';
+          $timeDifference = 999999999;
           if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             if ($_GET['Sort_Date'] == 'Today') {
               $timeDifference = 1;
@@ -108,7 +114,9 @@ session_start();
             elseif ($_GET['Sort_Date'] == 'Pastyear') {
               $timeDifference = 365;
             }
-            else {
+            elseif ($_GET['Sort_Date'] == 'Alltime') {
+              $timeDifference = 999999999;
+            } else {
               $timeDifference = 999999999;
             }
             if ($_GET['Sort_Type'] == 'New') {
@@ -122,15 +130,22 @@ session_start();
             elseif ($_GET['Sort_Type'] == 'Top') {
               $orderType = 'COUNT(Post.Id)';
             }
-            elseif ($_GET['Sort_Type'] == 'Controversial') {
-              //most commented posts
+            elseif ($_GET['Sort_Type'] == 'controversial') {
+              $controverial = true;
+            }else {
+              $orderType = 'Datum';
             }
           }
 
+
           for ($i = 0; $i <= 19; $i++) {
             $Liked = false;
+            if ($controverial == true) {
+              $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comment WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comment.PostId AND Post.ForumId=$forumId GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
+            }else {
+              $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Likes WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Likes.PostId AND Post.ForumId=$forumId GROUP BY Post.Id ORDER BY $orderType DESC LIMIT $i,1");
+            }
 
-            $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Likes WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Likes.PostId AND Post.ForumId=$forumId GROUP BY Post.Id ORDER BY $orderType DESC LIMIT $i,1");
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             if (empty($result)){
@@ -168,7 +183,7 @@ if ($Liked == False) {
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
               <p class='posttext'>".$result['PostMessage']."</p>
-              <form action='index.php' method='POST'>
+              <form action='forum.php?Id=". $_GET['Id'] . "&Sort_Type=" . $_GET['Sort_Type'] . "&Sort_Date=" . $_GET['Sort_Date'] . "' method='POST'>
               <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."'/>
               </form>
             </div>
@@ -182,7 +197,7 @@ if ($Liked == False) {
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
               <p class='posttext'>".$result['PostMessage']."</p>
-              <form action='index.php' method='POST'>
+              <form action='forum.php?Id=". $_GET['Id'] . "&Sort_Type=" . $_GET['Sort_Type'] . "&Sort_Date=" . $_GET['Sort_Date'] . "' method='POST'>
               <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
             </div>
