@@ -174,9 +174,6 @@ TOP SECTION STYLE
   /*Style*/
   font-size: 2em;
 }
-.maintop form{
-  float:right;
-}
 
 /*
 --------------------------------------------------
@@ -225,6 +222,7 @@ MID SECTION STYLE
   text-decoration: none;
   font-size: 1.2em;
   color: black;
+  text-align: center;
 }
 .posttext{
   /*Positioning*/
@@ -443,6 +441,7 @@ POSTS
 
   color: #10a3d1;
 }
+
 /*
 -------------------------------------------------
 ERRORS

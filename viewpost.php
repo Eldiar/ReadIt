@@ -116,23 +116,25 @@ session_start();
             <?php
 
             // Echoing the post message
-            echo '<p>' . $post['Message'] . '</p>';
+            echo '<p class="mainpost">' . $post['Message'] . '</p>';
 
             // Echoing post information (User, datetime)
-            echo '<p> Post created by: <a href="profile.php?UserId=' . $userdata['Id'] . '" >' . $userdata['Username'] . '</a> On: ' . $post['Datum'] . '</p>';
+            echo '<b><p class="extrainfo"> Post created by: <a class="userlink" href="profile.php?UserId=' . $userdata['Id'] . '" class="userlink" >' . $userdata['Username'] . '</a> On: ' . $post['Datum'] . '</p></b>';
 
             // Echoing the amount of likes a post has
-            echo '<p> This post is liked by: ' . $likes['Likes'] . ' people.';
-
+            echo '<b><p class="extrainfo"> This post is liked by: ' . $likes['Likes'] . ' people.</p></b>';
             // ADD LIKE BUTTON HERE!
+
             echo "
-            <form class='createpost' action='viewpost.php?Id=".$postId."' method='post'>
+            <div class = 'post'>
+            <form class='createpost commentonpost' action='viewpost.php?Id=".$postId."' method='post'>
 
               <textarea name='commentMessage' rows='6' cols='64' size='50' placeholder='Comment here' required></textarea><br/>
 
               <input type='submit' name='createComment' value='Comment'/>
 
             </form>
+            </div>
             ";
             $Commented = false;
             for ($i = 0; $i <= 19; $i++) {
@@ -178,11 +180,11 @@ session_start();
 
                 echo"
                 <div class='post'>
-                    <div class='postheader'>
-                      <a href='profile.php?Id=".$result['CommenterId']."' class='postuser'>".$result['Username']."</a>
-                      <span class='postdate'>".$result['CommentDate']."</span>
-                    </div>
-                    <p class='posttext'>".$result['CommentMessage']."</p>
+                      <p class='commenttext mainpost'>".$result['CommentMessage']."</p>
+                      <b><a href='profile.php?Id=".$result['CommenterId']."' class='commentuser extrainfo'>".$result['Username']."</a></b>
+                      <br>
+                      <b><span class='commentdate extrainfo'>".$result['CommentDate']."</span></b>
+
                   </div>
                   ";
                 }
