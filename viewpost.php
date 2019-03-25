@@ -114,6 +114,26 @@ session_start();
 
           <div class="viewpost standarpostheight">
             <?php
+            $Liked=false;
+            if (empty($_SESSION['userId'])) {
+              $Liked = true;
+            }
+            $Likedsql = $db->prepare("SELECT * FROM `Likes` WHERE PostId=$postId AND UserId=:userId");
+            $Likedsql->execute(array('userId' => $_SESSION['userId']));
+            $Likedcheck = $Likedsql->fetch(PDO::FETCH_ASSOC);
+            if (!empty($Likedcheck)){
+              $Liked = true;
+            } else {
+            if(isset($_POST['likeclick'])){
+              $Like_sql = $db->prepare("INSERT INTO `Likes`(`PostId`, `UserId`) VALUES ($postId, :userId)");
+              $Like_sql->execute(array(':userId' => $_SESSION['userId']));
+              $Liked = true;
+            }
+          }
+
+          $stmt = $db->prepare("SELECT COUNT(Likes.PostId) AS Likes FROM Likes WHERE Likes.PostId = :postId");
+          $stmt->execute(array(':postId' => $postId));
+          $likes = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Echoing the post message
             echo '<p class="mainpost">' . $post['Message'] . '</p>';
@@ -122,7 +142,16 @@ session_start();
             echo '<b><p class="extrainfo"> Post created by: <a class="userlink" href="profile.php?UserId=' . $userdata['Id'] . '" class="userlink" >' . $userdata['Username'] . '</a> On: ' . $post['Datum'] . '</p></b>';
 
             // Echoing the amount of likes a post has
-            echo '<b><p class="extrainfo"> This post is liked by: ' . $likes['Likes'] . ' people.</p></b>';
+            if ($Liked == false) {
+              echo " <form action='viewpost.php?Id=".$postId."' method='POST'>
+                     <input type='submit' name='likeclick' value='Likes: ".$likes['Likes']."'/>
+                     </form>";
+            } else {
+              echo " <form action='viewpost.php?Id=".$postId."' method='POST'>
+                     <input type='submit' name='likeclick' value='Likes: ".$likes['Likes']."' disabled/>
+                     </form>";
+            }
+
             // ADD LIKE BUTTON HERE!
 
             echo "
@@ -184,7 +213,6 @@ session_start();
                       <b><a href='profile.php?Id=".$result['CommenterId']."' class='commentuser extrainfo'>".$result['Username']."</a></b>
                       <br>
                       <b><span class='commentdate extrainfo'>".$result['CommentDate']."</span></b>
-
                   </div>
                   ";
                 }
