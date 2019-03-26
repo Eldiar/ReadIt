@@ -1,8 +1,13 @@
 <?php
 require 'db.php';
 session_start();
-?>
 
+  $forumId = $_GET['Id'];
+
+  $stmt = $db->prepare("SELECT Forum.Id AS ForumId, Forum.Title AS ForumTitle, Forum.Description AS ForumDescription FROM Forum WHERE Forum.Id=$forumId");
+  $stmt->execute();
+  $forum = $stmt->fetch(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -42,7 +47,6 @@ session_start();
               echo '<a href="login_form.php">Login</a>
               <a href="register_form.php">Sign Up</a>';
             }
-            $forumId = $_GET['Id'];
             ?>
           </div>
         </div>
@@ -60,7 +64,6 @@ session_start();
         </div>
 
         <div class="maintop">
-          home
           <?php
           echo"
           <form action='forum.php?Id= ". $forumId . "' method='get'>
@@ -82,7 +85,9 @@ session_start();
             </select>
             <input type='submit' value='Sort'>
          </form>
+         <p>".$forum['ForumTitle']."</p>
          ";
+
          ?>
         </div>
 
@@ -210,15 +215,11 @@ if ($Liked == False) {
 
         <!-- Sidebar content-->
         <?php
-        $stmt = $db->prepare("SELECT Forum.Id AS ForumId, Forum.Title AS ForumTitle, Forum.Description AS ForumDescription FROM Forum WHERE Forum.Id=$forumId");
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
         echo"
         <div class='sidebar'>
           <div class='sidebar-post'>
-            <p class='sidebar-post-title'>".$result['ForumTitle']."</p>
-            <p class='sidebar-post-text'>".$result['ForumDescription']."</p>
+            <p class='sidebar-post-title'>Forum Description</p>
+            <p class='sidebar-post-text'>".$forum['ForumDescription']."</p>
           </div>
         </div>
         ";

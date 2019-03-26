@@ -77,7 +77,10 @@ session_start();
         echo '<a href="login_form.php"><button class="">Login now!</button></a>';
       }
       if($_SESSION['ErrorType'] == "postCreation"){
-        echo '<a href="post_creation_form.php"><button class="">Back post creation!</button></a>';
+        echo '<a href="post_creation_form.php"><button class="">Back to post creation!</button></a>';
+      }
+      if($_SESSION['ErrorType'] == "Administration"){
+        echo '<a href="administration_user.php"><button class="">Back to administration!</button></a>';
       }
 
     }
