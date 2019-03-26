@@ -176,11 +176,11 @@ if ($Liked == False) {
           echo "
           <div class='post'>
               <div class='postheader'>
-                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
-                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".$result['Username']."</a>
+                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".htmlspecialchars($result['PostTitle'])."</b></a>
+                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".$result['PostMessage']."</p>
+              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='forum.php?Id=". $_GET['Id'] . "&Sort_Type=" . $_GET['Sort_Type'] . "&Sort_Date=" . $_GET['Sort_Date'] . "' method='POST'>
               <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."'/>
               </form>
@@ -190,11 +190,11 @@ if ($Liked == False) {
           echo "
           <div class='post'>
               <div class='postheader'>
-                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
-                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".$result['Username']."</a>
+                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".htmlspecialchars($result['PostTitle'])."</b></a>
+                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".$result['PostMessage']."</p>
+              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='forum.php?Id=". $_GET['Id'] . "&Sort_Type=" . $_GET['Sort_Type'] . "&Sort_Date=" . $_GET['Sort_Date'] . "' method='POST'>
               <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
@@ -217,8 +217,8 @@ if ($Liked == False) {
         echo"
         <div class='sidebar'>
           <div class='sidebar-post'>
-            <p class='sidebar-post-title'>".$result['ForumTitle']."</p>
-            <p class='sidebar-post-text'>".$result['ForumDescription']."</p>
+            <p class='sidebar-post-title'>".htmlspecialchars($result['ForumTitle'])."</p>
+            <p class='sidebar-post-text'>".htmlspecialchars($result['ForumDescription'])."</p>
           </div>
         </div>
         ";

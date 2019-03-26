@@ -92,7 +92,7 @@ session_start();
                     break;
                   }
                   echo"
-                <option value='".$result['ForumId']."'>".$result['ForumTitle']."</option>
+                <option value='".$result['ForumId']."'>".htmlspecialchars($result['ForumTitle'])."</option>
                 ";
                 }
                 ?>

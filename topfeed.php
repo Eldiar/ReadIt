@@ -114,11 +114,11 @@ if ($Liked == False) {
           echo "
           <div class='post'>
               <div class='postheader'>
-                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
-                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".$result['Username']."</a>
+                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".htmlspecialchars($result['PostTitle'])."</b></a>
+                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".$result['PostMessage']."</p>
+              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='index.php' method='POST'>
               <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."'/>
               </form>
@@ -128,11 +128,11 @@ if ($Liked == False) {
           echo "
           <div class='post'>
               <div class='postheader'>
-                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
-                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".$result['Username']."</a>
+                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".htmlspecialchars($result['PostTitle'])."</b></a>
+                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".$result['PostMessage']."</p>
+              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='index.php' method='POST'>
               <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
@@ -166,7 +166,7 @@ if ($Liked == False) {
               }
 
               echo "
-              <a class='sidebar-post-text' href='forum.php?Id=".$Topforum['ForumId']."'>".$Topforum['ForumTitle']."(".$follows['Follows'].")</a><br><br>
+              <a class='sidebar-post-text' href='forum.php?Id=".htmlspecialchars($Topforum['ForumId'])."'>".htmlspecialchars($Topforum['ForumTitle'])."(".$follows['Follows'].")</a><br><br>
               ";
             }
             ?>
