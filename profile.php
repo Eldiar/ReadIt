@@ -114,7 +114,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($Followed == false ) {
           echo"
             <div class='maintop'>
-              <p>".$profile[Username]."'s profile</p>
+              <p>".htmlspecialchars($profile[Username])."'s profile</p>
             </div>
           <form action='profile.php?Id=".$profileId."' method='POST'>
           <input type='submit' name='followclick' value='Follow(".$follows['Follows'].")'/>
@@ -123,7 +123,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
         }elseif ($NonFollowed == false) {
           echo"
             <div class='maintop'>
-              <p>".$profile[Username]."'s profile</p>
+              <p>".htmlspecialchars($profile[Username])."'s profile</p>
             </div>
           <form action='profile.php?Id=".$profileId."' method='POST'>
           <input type='submit' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
@@ -132,7 +132,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
         }else {
           echo"
             <div class='maintop'>
-              <p>".$profile[Username]."'s profile</p>
+              <p>".htmlspecialchars($profile[Username])."'s profile</p>
             </div>
           <form action='profile.php?Id=".$profileId."' method='POST'>
           <input type='submit' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
@@ -199,11 +199,11 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
           echo "
           <div class='post'>
               <div class='postheader'>
-                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
-                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".$result['Username']."</a>
+                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".htmlspecialchars($result['PostTitle'])."</b></a>
+                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".$result['PostMessage']."</p>
+              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='profile.php?Id=".$profileId."' method='POST'>
               <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."'/>
               </form>
@@ -213,11 +213,11 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
           echo "
           <div class='post'>
               <div class='postheader'>
-                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
-                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".$result['Username']."</a>
+                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".htmlspecialchars($result['PostTitle'])."</b></a>
+                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".$result['PostMessage']."</p>
+              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='profile.php?Id=".$profileId."' method='POST'>
               <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
@@ -236,11 +236,11 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
         echo "
         <div class='sidebar'>
           <div class='sidebar-post'>
-            <p class='sidebar-post-title'>".$profile['Username']."</p>
-            <p class='sidebar-post-text'>First Name: ".$profile['Firstname']."</p>
-            <p class='sidebar-post-text'>Last Name: ".$profile['Lastname']."</p>
-            <p class='sidebar-post-text'>Birthday: ".$profile['Birthday']."</p>
-            <p class='sidebar-post-text'>Age: ".$profile['Age']."</p>
+            <p class='sidebar-post-title'>".htmlspecialchars($profile['Username'])."</p>
+            <p class='sidebar-post-text'>First Name: ".htmlspecialchars($profile['Firstname'])."</p>
+            <p class='sidebar-post-text'>Last Name: ".htmlspecialchars($profile['Lastname'])."</p>
+            <p class='sidebar-post-text'>Birthday: ".htmlspecialchars($profile['Birthday'])."</p>
+            <p class='sidebar-post-text'>Age: ".htmlspecialchars($profile['Age'])."</p>
             <p class='sidebar-post-text'>Likes given: ".$givenlikes['GivenLikes']."</p>
             <p class='sidebar-post-text'>Likes Recieved: ".$recievedlikes['RecievedLikes']."</p>
           </div>

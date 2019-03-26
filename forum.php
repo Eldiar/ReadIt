@@ -87,7 +87,13 @@ session_start();
          </form>
          <p>".$forum['ForumTitle']."</p>
          ";
+<<<<<<< HEAD
 
+=======
+         echo"
+         <p>".htmlspecialchars($result['ForumTitle'])."home</p> //moet nog gefixt
+         ";
+>>>>>>> b14518a3e3cb10cf650e75f20c3b9dd8f4d4127a
          ?>
         </div>
 
@@ -181,11 +187,11 @@ if ($Liked == False) {
           echo "
           <div class='post'>
               <div class='postheader'>
-                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
-                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".$result['Username']."</a>
+                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".htmlspecialchars($result['PostTitle'])."</b></a>
+                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".$result['PostMessage']."</p>
+              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='forum.php?Id=". $_GET['Id'] . "&Sort_Type=" . $_GET['Sort_Type'] . "&Sort_Date=" . $_GET['Sort_Date'] . "' method='POST'>
               <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."'/>
               </form>
@@ -195,11 +201,11 @@ if ($Liked == False) {
           echo "
           <div class='post'>
               <div class='postheader'>
-                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
-                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".$result['Username']."</a>
+                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".htmlspecialchars($result['PostTitle'])."</b></a>
+                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".$result['PostMessage']."</p>
+              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='forum.php?Id=". $_GET['Id'] . "&Sort_Type=" . $_GET['Sort_Type'] . "&Sort_Date=" . $_GET['Sort_Date'] . "' method='POST'>
               <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
@@ -218,8 +224,13 @@ if ($Liked == False) {
         echo"
         <div class='sidebar'>
           <div class='sidebar-post'>
+<<<<<<< HEAD
             <p class='sidebar-post-title'>Forum Description</p>
             <p class='sidebar-post-text'>".$forum['ForumDescription']."</p>
+=======
+            <p class='sidebar-post-title'>".htmlspecialchars($result['ForumTitle'])."</p>
+            <p class='sidebar-post-text'>".htmlspecialchars($result['ForumDescription'])."</p>
+>>>>>>> b14518a3e3cb10cf650e75f20c3b9dd8f4d4127a
           </div>
         </div>
         ";

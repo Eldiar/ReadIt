@@ -117,9 +117,9 @@ session_start();
               echo "
                 <div class='post'>
                   <div class='postheader'>
-                    <a href='forum.php?Id=".$result['ForumId']."' class='posttitle'><b>".$result['ForumTitle']."</b></a>
+                    <a href='forum.php?Id=".$result['ForumId']."' class='posttitle'><b>".htmlspecialchars($result['ForumTitle'])."</b></a>
                   </div>
-                    <p class='posttext'>".$result['ForumDescription']."</p>
+                    <p class='posttext'>".htmlspecialchars($result['ForumDescription'])."</p>
                     <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
                     <input type='submit' name='".$i."' value='Follow(".$follows['Follows'].")'/>
                     </form>
@@ -129,9 +129,9 @@ session_start();
               echo "
                 <div class='post'>
                   <div class='postheader'>
-                    <a href='forum.php?Id=".$result['ForumId']."' class='posttitle'><b>".$result['ForumTitle']."</b></a>
+                    <a href='forum.php?Id=".$result['ForumId']."' class='posttitle'><b>".htmlspecialchars($result['ForumTitle'])."</b></a>
                   </div>
-                    <p class='posttext'>".$result['ForumDescription']."</p>
+                    <p class='posttext'>".htmlspecialchars($result['ForumDescription'])."</p>
                     <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
                     <input type='submit' name='".$i."' value='Follow(".$follows['Follows'].")' style='color:blue'/>
                     </form>
@@ -141,9 +141,9 @@ session_start();
             echo "
               <div class='post'>
                 <div class='postheader'>
-                  <a href='forum.php?Id=".$result['ForumId']."' class='posttitle'><b>".$result['ForumTitle']."</b></a>
+                  <a href='forum.php?Id=".$result['ForumId']."' class='posttitle'><b>".htmlspecialchars($result['ForumTitle'])."</b></a>
                 </div>
-                  <p class='posttext'>".$result['ForumDescription']."</p>
+                  <p class='posttext'>".htmlspecialchars($result['ForumDescription'])."</p>
                   <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
                   <input type='submit' name='".$i."' value='Follow(".$follows['Follows'].")' disabled/>
                   </form>
