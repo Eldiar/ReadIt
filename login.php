@@ -30,6 +30,7 @@ else{ //user exists
     //This is how we know the user is logged in
     $_SESSION['logged_in'] = true;
 
+    //Follow yourself if you dont already follow yourself
     $Followedsql = $db->prepare("SELECT * FROM `PersoonVolgen` WHERE Volgend=:userId AND Gevolgd=:gevolgdId");
     $Followedsql->execute(array(':userId' => $_SESSION['userId'], ':gevolgdId' => $_SESSION['userId']));
     $Followedcheck = $Followedsql->fetch(PDO::FETCH_ASSOC);

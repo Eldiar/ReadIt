@@ -60,6 +60,7 @@ session_start();
         </div>
 
         <div class="maintop">
+          <!-- Sorting form-->
           <form action="index.php" method="get">
             <select name="Sort_Type">
               <option value="New">New</option>
@@ -92,6 +93,7 @@ session_start();
         <!-- Main feed-->
         <div class="main">
           <?php
+          //catch for the sorting form
           $controverial = false;
           $orderType = 'Datum';
           $timeDifference = 999999999;
@@ -130,6 +132,7 @@ session_start();
               $orderType = 'Datum';
             }
           }
+          //checking if user is following any other users or forums
           $nofeedcheck = $db->prepare("SELECT * FROM `Volgen` WHERE UserId=:userId");
           $nofeedcheck->execute(array('userId' => $_SESSION['userId']));
           $nofeed = $nofeedcheck->fetch(PDO::FETCH_ASSOC);
@@ -141,9 +144,10 @@ session_start();
           if (empty($nofeed) && empty($noperson)) {
           echo "try following some forums or people. If you do so you will get a personalised feed here with only the things you want to see.";
           }
+          //post showing loop
           for ($i = 0; $i <= 19; $i++) {
             $Liked = false;
-
+            //Select querys for posts with controversial sorting
             if ($controverial == true) {
               if($_SESSION['logged_in']==true){
 
@@ -160,6 +164,7 @@ session_start();
                 $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comment WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comment.PostId GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
               }
             }else {
+              //Select querys for posts without controversial sorting
               if($_SESSION['logged_in']==true){
                 $nofeedcheck = $db->prepare("SELECT * FROM `Volgen` WHERE UserId=:userId");
                 $nofeedcheck->execute(array('userId' => $_SESSION['userId']));
