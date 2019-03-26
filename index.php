@@ -74,7 +74,7 @@ session_start();
               <option value="Pastyear">Past Year</option>
               <option value="Alltime">All Time</option>
             </select>
-            <input type="submit" value='Sort'>
+            <input type="submit" value='Sort' class="buttonstyle">
          </form>
           <p>Home</p>
 
@@ -214,7 +214,7 @@ if ($Liked == False) {
               </div>
               <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='index.php?Sort_Type=".$_GET['Sort_Type']."&Sort_Date=".$_GET['Sort_Date']."' method='POST'>
-              <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."'/>
+              <input type='submit' class="buttonstyle" name='".$i."' value='Likes: ".$likes['Likes']."'/>
               </form>
             </div>
           ";
@@ -228,7 +228,7 @@ if ($Liked == False) {
               </div>
               <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='index.php?Sort_Type=".$_GET['Sort_Type']."&Sort_Date=".$_GET['Sort_Date']."' method='POST'>
-              <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
+              <input type='submit' class="buttonstyle" name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
             </div>
         ";

@@ -120,7 +120,7 @@ if ($Liked == False) {
               </div>
               <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='index.php' method='POST'>
-              <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."'/>
+              <input type='submit' class='buttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."'/>
               </form>
             </div>
           ";
@@ -134,7 +134,7 @@ if ($Liked == False) {
               </div>
               <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='index.php' method='POST'>
-              <input type='submit' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
+              <input type='submit' class='buttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
             </div>
         ";

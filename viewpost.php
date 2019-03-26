@@ -182,7 +182,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               echo"
               <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?UserId=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
               <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
-              <input type='submit' name='followclick' value='Follow(".$follows['Follows'].")'/>
+              <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")'/>
               </form>
                On: " . $post['Datum'] . "</p></b>";
 
@@ -190,7 +190,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               echo"
               <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?UserId=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
               <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
-              <input type='submit' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
+              <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
               </form>
                On: " . $post['Datum'] . "</p></b>";
 
@@ -198,7 +198,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               echo"
               <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?UserId=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
               <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
-              <input type='submit' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
+              <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
               </form>
                On: " . $post['Datum'] . "</p></b>";
             }
@@ -211,11 +211,11 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
             // Echoing the amount of likes a post has
             if ($Liked == false) {
               echo " <form action='viewpost.php?Id=".$postId."' method='POST'>
-                     <input type='submit' name='likeclick' value='Likes: ".$likes['Likes']."'/>
+                     <input type='submit' class='buttonstyle' name='likeclick' value='Likes: ".$likes['Likes']."'/>
                      </form>";
             } else {
               echo " <form action='viewpost.php?Id=".$postId."' method='POST'>
-                     <input type='submit' name='likeclick' value='Likes: ".$likes['Likes']."' disabled/>
+                     <input type='submit' class='buttonstyle' name='likeclick' value='Likes: ".$likes['Likes']."' disabled/>
                      </form>";
             }
 
@@ -227,7 +227,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
 
               <textarea name='commentMessage' rows='6' cols='64' size='50' placeholder='Comment here' required></textarea><br/>
 
-              <input type='submit' name='createComment' value='Comment'/>
+              <input type='submit' class='buttonstyle' name='createComment' value='Comment'/>
 
             </form>
             </div>

@@ -89,7 +89,7 @@ session_start();
             <label>Birthday</label><br/>
             <input type="date" name="birthday" required><br/>
 
-            <button type="submit" name="register">register</button>
+            <button type="submit" name="register" class="buttonstyle">register</button>
           </form>
         </div>
 

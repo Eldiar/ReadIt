@@ -124,9 +124,9 @@ if (!$_SESSION['logged_in'] == true) {
             </table>
 
             <form action='administration.php?Id=".$user['Id']."' method='POST'>
-              <input type='submit' name='action' value='delete'/>
-              <input type='submit' name='action' value='promote'/>
-              <input type='submit' name='action' value='profile'/>
+              <input type='submit' class='buttonstyle' name='action' value='delete'/>
+              <input type='submit' class='buttonstyle' name='action' value='promote'/>
+              <input type='submit' class='buttonstyle' name='action' value='profile'/>
             </form>
 
           </div>
