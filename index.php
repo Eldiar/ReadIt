@@ -208,9 +208,15 @@ if ($Liked == False) {
           echo "
           <div class='post'>
               <div class='postheader'>
+<<<<<<< HEAD
                 <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".htmlspecialchars($result['PostTitle'])."</b></a>
                 <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".htmlspecialchars($result['PostDate'])."</span>
+=======
+                <a href='viewpost.php?Id=". $result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
+                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".$result['Username']."</a>
+                <span class='postdate'>".$result['PostDate']."</span>
+>>>>>>> fdbdc41e73427d354ff48a44e2bdedd826368c18
               </div>
               <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='index.php?Sort_Type=".$_GET['Sort_Type']."&Sort_Date=".$_GET['Sort_Date']."' method='POST'>
