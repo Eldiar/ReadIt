@@ -126,7 +126,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               <p>".htmlspecialchars($profile[Username])."'s profile</p>
             </div>
           <form action='profile.php?Id=".$profileId."' method='POST'>
-          <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
+          <input type='submit' class='followedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
           </form>
           ";
         }else {

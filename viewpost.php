@@ -190,7 +190,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               echo"
               <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
               <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
-              <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
+              <input type='submit' class='followedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
               </form>
                On: " . $post['Datum'] . "</p></b>";
 
