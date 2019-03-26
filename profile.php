@@ -17,6 +17,40 @@ if(!$profile){ //User doesn't exist
   header("location: error.php");
 }
 
+$Followed = false;
+$NonFollowed = false;
+
+if ($_SESSION['userId'] == $profileId) {
+  $NonFollowed = true;
+  $Followed = true;
+}
+
+if (empty($_SESSION['userId'])) {
+  $NonFollowed = true;
+  $Followed = true;
+}
+
+$Followedsql = $db->prepare("SELECT * FROM `PersoonVolgen` WHERE Volgend=:userId AND Gevolgd=$profileId");
+$Followedsql->execute(array(':userId' => $_SESSION['userId']));
+$Followedcheck = $Followedsql->fetch(PDO::FETCH_ASSOC);
+if (!empty($Followedcheck)){
+  if(isset($_POST['followclick'])){
+    $unFollow_sql = $db->prepare("DELETE FROM `PersoonVolgen` WHERE Volgend=:userId AND Gevolgd=$profileId");
+    $unFollow_sql->execute(array(':userId' => $_SESSION['userId']));
+  } else {
+    $Followed = true;
+  }
+} else {
+if(isset($_POST['followclick'])){
+  $Follow_sql = $db->prepare("INSERT INTO `PersoonVolgen`(`Volgend`, `Gevolgd`) VALUES (:userId, $profileId)");
+  $Follow_sql->execute(array(':userId' => $_SESSION['userId']));
+  $Followed = true;
+}
+}
+
+$stmt = $db->prepare("SELECT COUNT(PersoonVolgen.Gevolgd) AS Follows FROM PersoonVolgen WHERE PersoonVolgen.Gevolgd = $profileId");
+$stmt->execute();
+$follows = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -77,11 +111,34 @@ if(!$profile){ //User doesn't exist
       <div class="top">
         <div class="between7-5"></div>
         <?php
+        if ($Followed == false ) {
           echo"
             <div class='maintop'>
               <p>".$profile[Username]."'s profile</p>
             </div>
-          "
+          <form action='profile.php?Id=".$profileId."' method='POST'>
+          <input type='submit' name='followclick' value='Follow(".$follows['Follows'].")'/>
+          </form>
+          ";
+        }elseif ($NonFollowed == false) {
+          echo"
+            <div class='maintop'>
+              <p>".$profile[Username]."'s profile</p>
+            </div>
+          <form action='profile.php?Id=".$profileId."' method='POST'>
+          <input type='submit' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
+          </form>
+          ";
+        }else {
+          echo"
+            <div class='maintop'>
+              <p>".$profile[Username]."'s profile</p>
+            </div>
+          <form action='profile.php?Id=".$profileId."' method='POST'>
+          <input type='submit' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
+          </form>
+          ";
+        }
         ?>
 
         <div class="between7-5"></div>

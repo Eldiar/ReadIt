@@ -114,9 +114,7 @@ session_start();
             elseif ($_GET['Sort_Date'] == 'Pastyear') {
               $timeDifference = 365;
             }
-            elseif ($_GET['Sort_Date'] == 'Alltime') {
-              $timeDifference = 999999999;
-            } else {
+            else {
               $timeDifference = 999999999;
             }
             if ($_GET['Sort_Type'] == 'New') {

@@ -55,6 +55,7 @@
     "VALUES (:username, :password, :birthday, :firstname, :lastname, :email)");
 
     if($stmt->execute(array(':username' => $username, ':password'=> $password, ':birthday'=>$birthday, ':firstname'=>$first_name, ':lastname'=>$last_name, ':email'=>$email))){
+
       header("location: login_form.php");
     }
 
