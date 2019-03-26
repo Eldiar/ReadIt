@@ -81,7 +81,7 @@ session_start();
               <label>Description<label><br/>
               <textarea name="forumDescription" rows="8" cols="64" size="50" placeholder="(Max. 2000 Characters)" required><?php echo $_SESSION['forumDescription'];?></textarea><br/>
 
-              <button type="submit" name="createForum" class="buttonstyle">Submit</button>
+              <button type="submit" name="createForum" class='buttonstyle'>Submit</button>
               <!-- ADD EMPTYING CACHE BUTTON -->
 
             </form>

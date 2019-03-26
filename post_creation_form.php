@@ -98,7 +98,7 @@ session_start();
                 ?>
               </select>
 
-              <button type="submit" name="createPost" class="buttonstyle">Submit</button>
+              <button type="submit" name="createPost" class='buttonstyle'>Submit</button>
               <!-- ADD EMPTYING CACHE BUTTON -->
 
             </form>

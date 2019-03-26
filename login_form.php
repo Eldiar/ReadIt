@@ -78,7 +78,7 @@ session_start();
             <label>Password:</label><br/>
             <input type="password" name="password" required><br/>
 
-            <button type="submit" name="login" class="buttonstyle">login</button>
+            <button type="submit" name="login" class='buttonstyle'>login</button>
           </form>
         </div>
 
