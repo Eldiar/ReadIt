@@ -183,7 +183,7 @@ if ($Liked == False) {
           echo "
           <div class='post'>
               <div class='postheader'>
-                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
+                <a href='viewpost.php?Id=". $result['PostId']."' class='posttitle'><b>".$result['PostTitle']."</b></a>
                 <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".$result['Username']."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
