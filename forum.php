@@ -87,13 +87,7 @@ session_start();
          </form>
          <p>".$forum['ForumTitle']."</p>
          ";
-<<<<<<< HEAD
 
-=======
-         echo"
-         <p>".htmlspecialchars($result['ForumTitle'])."home</p> //moet nog gefixt
-         ";
->>>>>>> b14518a3e3cb10cf650e75f20c3b9dd8f4d4127a
          ?>
         </div>
 
@@ -224,13 +218,8 @@ if ($Liked == False) {
         echo"
         <div class='sidebar'>
           <div class='sidebar-post'>
-<<<<<<< HEAD
             <p class='sidebar-post-title'>Forum Description</p>
             <p class='sidebar-post-text'>".$forum['ForumDescription']."</p>
-=======
-            <p class='sidebar-post-title'>".htmlspecialchars($result['ForumTitle'])."</p>
-            <p class='sidebar-post-text'>".htmlspecialchars($result['ForumDescription'])."</p>
->>>>>>> b14518a3e3cb10cf650e75f20c3b9dd8f4d4127a
           </div>
         </div>
         ";
