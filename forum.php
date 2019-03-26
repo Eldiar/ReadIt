@@ -156,6 +156,7 @@ session_start();
             }
 
             if (empty($_SESSION['userId'])) {
+              $NonLiked = true;
               $Liked = true;
             }
 
@@ -191,7 +192,7 @@ if ($Liked == False) {
               </form>
             </div>
           ";
-} else {
+} elseif ($NonLiked == false) {
           echo "
           <div class='post'>
               <div class='postheader'>
@@ -205,6 +206,21 @@ if ($Liked == False) {
               </form>
             </div>
         ";
+    }
+    else{
+      echo "
+      <div class='post'>
+          <div class='postheader'>
+            <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".htmlspecialchars($result['PostTitle'])."</b></a>
+            <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
+            <span class='postdate'>".$result['PostDate']."</span>
+          </div>
+          <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+          <form action='forum.php?Id=". $_GET['Id'] . "&Sort_Type=" . $_GET['Sort_Type'] . "&Sort_Date=" . $_GET['Sort_Date'] . "' method='POST'>
+          <input type='submit' class='likedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
+        </form>
+      </div>
+      ";
     }
 }
          ?>

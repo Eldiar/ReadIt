@@ -90,6 +90,7 @@ session_start();
 
             if (empty($_SESSION['userId'])) {
               $Liked = true;
+              $NonLiked = true;
             }
 
             $Likedsql = $db->prepare("SELECT * FROM `Likes` WHERE PostId=$result[PostId] AND UserId=:userId");
@@ -124,7 +125,7 @@ if ($Liked == False) {
               </form>
             </div>
           ";
-} else {
+} elseif ($NonLiked == False) {
           echo "
           <div class='post'>
               <div class='postheader'>
@@ -138,6 +139,21 @@ if ($Liked == False) {
               </form>
             </div>
         ";
+    }
+    else{
+      echo "
+      <div class='post'>
+          <div class='postheader'>
+            <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".htmlspecialchars($result['PostTitle'])."</b></a>
+            <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
+            <span class='postdate'>".$result['PostDate']."</span>
+          </div>
+          <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+          <form action='index.php' method='POST'>
+          <input type='submit' class='nonlikedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
+          </form>
+        </div>
+    ";
     }
 }
          ?>

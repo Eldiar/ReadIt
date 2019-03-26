@@ -133,7 +133,7 @@ session_start();
                   </div>
                     <p class='posttext'>".htmlspecialchars($result['ForumDescription'])."</p>
                     <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
-                    <input type='submit' class='buttonstyle' name='".$i."' value='Follow(".$follows['Follows'].")' style='color:blue'/>
+                    <input type='submit' class='followedbuttonstyle' name='".$i."' value='Follow(".$follows['Follows'].")' style='color:blue'/>
                     </form>
                 </div>
             ";
@@ -145,7 +145,7 @@ session_start();
                 </div>
                   <p class='posttext'>".htmlspecialchars($result['ForumDescription'])."</p>
                   <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
-                  <input type='submit' class='likedbuttonstyle' name='".$i."' value='Follow(".$follows['Follows'].")' disabled/>
+                  <input type='submit' class='buttonstyle' name='".$i."' value='Follow(".$follows['Follows'].")' disabled/>
                   </form>
               </div>
           ";

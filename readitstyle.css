@@ -93,6 +93,12 @@ BUTTON STYLE
   border: none;
   margin: 0.3em;
 }
+.nonlikedbuttonstyle{
+  background-color: #BEB9B7;
+  color: black;
+  border: none;
+  margin: 0.3em;
+}
 /*
 --------------------------------------------------
 DROPDOWN STYLE

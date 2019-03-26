@@ -152,6 +152,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
             <?php
             $Liked=false;
             if (empty($_SESSION['userId'])) {
+              $NonLiked = true;
               $Liked = true;
             }
             $Likedsql = $db->prepare("SELECT * FROM `Likes` WHERE PostId=$postId AND UserId=:userId");
@@ -198,7 +199,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               echo"
               <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
               <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
-              <input type='submit' class='likedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
+              <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
               </form>
                On: " . $post['Datum'] . "</p></b>";
             }
@@ -213,9 +214,13 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               echo " <form action='viewpost.php?Id=".$postId."' method='POST'>
                      <input type='submit' class='buttonstyle' name='likeclick' value='Likes: ".$likes['Likes']."'/>
                      </form>";
-            } else {
+            } elseif ($NonLiked == false){
               echo " <form action='viewpost.php?Id=".$postId."' method='POST'>
                      <input type='submit' class='likedbuttonstyle' name='likeclick' value='Likes: ".$likes['Likes']."' disabled/>
+                     </form>";
+            } else {
+              echo " <form action='viewpost.php?Id=".$postId."' method='POST'>
+                     <input type='submit' class='nonlikedbuttonstyle' name='likeclick' value='Likes: ".$likes['Likes']."' disabled/>
                      </form>";
             }
 

@@ -166,6 +166,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
             }
 
             if (empty($_SESSION['userId'])) {
+              $NonLiked = true;
               $Liked = true;
             }
 
@@ -209,7 +210,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               </form>
             </div>
           ";
-        } else {
+        } elseif ($NonLiked == False) {
           echo "
           <div class='post'>
               <div class='postheader'>
@@ -220,6 +221,21 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='profile.php?Id=".$profileId."' method='POST'>
               <input type='submit' class='likedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
+              </form>
+            </div>
+        ";
+        }
+        else{
+          echo "
+          <div class='post'>
+              <div class='postheader'>
+                <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".htmlspecialchars($result['PostTitle'])."</b></a>
+                <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
+                <span class='postdate'>".$result['PostDate']."</span>
+              </div>
+              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+              <form action='profile.php?Id=".$profileId."' method='POST'>
+              <input type='submit' class='nonlikedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
             </div>
         ";
