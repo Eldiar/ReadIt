@@ -135,7 +135,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               <p>".htmlspecialchars($profile[Username])."'s profile</p>
             </div>
           <form action='profile.php?Id=".$profileId."' method='POST'>
-          <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
+          <input type='submit' class='likedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
           </form>
           ";
         }
@@ -219,7 +219,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               </div>
               <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='profile.php?Id=".$profileId."' method='POST'>
-              <input type='submit' class='buttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
+              <input type='submit' class='likedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
             </div>
         ";

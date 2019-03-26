@@ -198,7 +198,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               echo"
               <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?UserId=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
               <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
-              <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
+              <input type='submit' class='likedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
               </form>
                On: " . $post['Datum'] . "</p></b>";
             }
@@ -215,7 +215,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
                      </form>";
             } else {
               echo " <form action='viewpost.php?Id=".$postId."' method='POST'>
-                     <input type='submit' class='buttonstyle' name='likeclick' value='Likes: ".$likes['Likes']."' disabled/>
+                     <input type='submit' class='likedbuttonstyle' name='likeclick' value='Likes: ".$likes['Likes']."' disabled/>
                      </form>";
             }
 

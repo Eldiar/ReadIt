@@ -85,7 +85,7 @@ session_start();
             </select>
             <input type='submit' class='buttonstyle' value='Sort'>
          </form>
-         <p>".$forum['ForumTitle']."</p>
+         <p>".htmlspecialchars($forum['ForumTitle'])."</p>
          ";
 
          ?>
@@ -201,7 +201,7 @@ if ($Liked == False) {
               </div>
               <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='forum.php?Id=". $_GET['Id'] . "&Sort_Type=" . $_GET['Sort_Type'] . "&Sort_Date=" . $_GET['Sort_Date'] . "' method='POST'>
-              <input type='submit' class='buttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
+              <input type='submit' class='likedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
             </div>
         ";
@@ -219,7 +219,7 @@ if ($Liked == False) {
         <div class='sidebar'>
           <div class='sidebar-post'>
             <p class='sidebar-post-title'>Forum Description</p>
-            <p class='sidebar-post-text'>".$forum['ForumDescription']."</p>
+            <p class='sidebar-post-text'>".htmlspecialchars($forum['ForumDescription'])."</p>
           </div>
         </div>
         ";

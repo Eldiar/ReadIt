@@ -145,7 +145,7 @@ session_start();
                 </div>
                   <p class='posttext'>".htmlspecialchars($result['ForumDescription'])."</p>
                   <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
-                  <input type='submit' class='buttonstyle' name='".$i."' value='Follow(".$follows['Follows'].")' disabled/>
+                  <input type='submit' class='likedbuttonstyle' name='".$i."' value='Follow(".$follows['Follows'].")' disabled/>
                   </form>
               </div>
           ";

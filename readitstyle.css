@@ -70,7 +70,16 @@ BUTTON STYLE
 --------------------------------------------------
 */
 .buttonstyle{
-  
+  background-color: #313233; /*maak dit een goede kleur voor de knoppen*/
+  color: white;
+  border: none;
+  margin: 0.3em;
+}
+.likedbuttonstyle{
+  background-color: #BEB9B7;
+  color: black;
+  border: none;
+  margin: 0.3;
 }
 /*
 --------------------------------------------------
