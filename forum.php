@@ -60,7 +60,6 @@ session_start();
         </div>
 
         <div class="maintop">
-          home
           <?php
           echo"
           <form action='forum.php?Id= ". $forumId . "' method='get'>
@@ -82,6 +81,9 @@ session_start();
             </select>
             <input type='submit' value='Sort'>
          </form>
+         ";
+         echo"
+         <p>".htmlspecialchars($result['ForumTitle'])."home</p> //moet nog gefixt
          ";
          ?>
         </div>
