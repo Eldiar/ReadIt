@@ -180,7 +180,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($Followed == false ) {
               echo"
-              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?UserId=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
+              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
               <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
               <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")'/>
               </form>
@@ -188,7 +188,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
 
             }elseif ($NonFollowed == false) {
               echo"
-              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?UserId=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
+              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
               <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
               <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
               </form>
@@ -196,7 +196,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
 
             }else {
               echo"
-              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?UserId=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
+              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
               <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
               <input type='submit' class='likedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
               </form>
@@ -206,7 +206,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 
-            echo '<b><p class="extrainfo"> Post created by: <a class="userlink" href="profile.php?UserId=' . $userdata['Id'] . '" class="userlink" >' . htmlspecialchars($userdata['Username']) . '</a> On: ' . $post['Datum'] . '</p></b>';
+            echo '<b><p class="extrainfo"> Post created by: <a class="userlink" href="profile.php?Id=' . $userdata['Id'] . '" class="userlink" >' . htmlspecialchars($userdata['Username']) . '</a> On: ' . $post['Datum'] . '</p></b>';
 
             // Echoing the amount of likes a post has
             if ($Liked == false) {
