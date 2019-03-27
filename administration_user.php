@@ -59,7 +59,7 @@ if (!$_SESSION['logged_in'] == true) {
             }
 
             if ($_SESSION['rank'] == 1){
-              echo '<a href="register_form.php">User Administration</a>';
+              echo '<a href="administration_user.php">User Administration</a>';
             }
             ?>
           </div>

@@ -126,7 +126,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
                <a href="register_form.php">Sign Up</a>';
              }
              if ($_SESSION['rank'] == 1){
-               echo '<a href="register_form.php">User Administration</a>';
+               echo '<a href="administration_user.php">User Administration</a>';
              }
              ?>
            </div>
@@ -181,11 +181,12 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
           $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
           if ($result['Ranking'] == 1) {
-            $editable = true;
+            $deletable = true;
           }
 
           if ($userdata['Id'] == $_SESSION['userId']) {
             $editable = true;
+            $deletable = true;
           }
 
 
@@ -215,6 +216,47 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
             // Echoing post information (User, datetime)
 
 
+
+            echo "
+              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
+              <form action='viewpost.php?Id=".$postId."' method='POST'>
+            ";
+
+            if ($Followed == false){
+              echo "
+                <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")'/>
+              ";
+            }
+            elseif ($NonFollowed == false){
+              echo "
+                <input type='submit' class='followedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
+              ";
+            }
+            else {
+              echo "
+                <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
+              ";
+            }
+
+            if ($deletable == true){
+              echo "
+              <input type='submit' class='buttonstyle' name='deleteclick' value='Delete'/>
+              ";
+            }
+
+            if ($editable == true){
+              echo "
+                <input type='submit' class='buttonstyle' name='editclick' value='Edit'/>
+              ";
+            }
+
+            echo"
+              </form>
+              On: " . $post['Datum'] . "</p></b>
+            ";
+
+
+            /*
 
             if ($Followed == false ) {
               if ($editable == false) {
@@ -261,6 +303,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
                On: " . $post['Datum'] . "</p></b>";
             }
 
+            */
 
 
 

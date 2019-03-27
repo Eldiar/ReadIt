@@ -104,7 +104,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
 
             }
             if ($_SESSION['rank'] == 1){
-              echo '<a href="register_form.php">User Administration</a>';
+              echo '<a href="administration_user.php">User Administration</a>';
             }
             ?>
           </div>
