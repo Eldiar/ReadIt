@@ -104,6 +104,7 @@ if (!$_SESSION['logged_in'] == true) {
             // Id, Username, Birthday, Firstname, Lastname, Rank
             // Button to profile (where messages can be deleted), delete account button, promote to admin button
             // use HTML table
+            if ($user['Password'] != "DELETED"){
           echo "
           <div class='post'>
             <table>
@@ -123,14 +124,17 @@ if (!$_SESSION['logged_in'] == true) {
               </tr>
             </table>
 
-            <form action='administration.php?Id=".$user['Id']."' method='POST'>
+            <form action='administration.php' method='POST'>
               <input type='submit' class='buttonstyle' name='action' value='delete'/>
               <input type='submit' class='buttonstyle' name='action' value='promote'/>
               <input type='submit' class='buttonstyle' name='action' value='profile'/>
+              <select name='Id' class='invisible'>
+                <option value=". $user['Id']. "></option>
+              </select>
             </form>
 
           </div>
-          ";
+          ";}
     }
 
          ?>
