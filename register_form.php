@@ -48,7 +48,8 @@ session_start();
             if($_SESSION['logged_in']==true){
               echo "<a href='logout.php'>Logout</a>
               <a href='profile.php?Id=".$_SESSION['userId']."'>Profile</a>
-              <a href='post_creation_form.php'>Post Creation</a>";
+              <a href='post_creation_form.php'>Post Creation</a>
+              <a href='forum_creation_form.php'>Forum Creation</a>";
             }
             else{
               echo '<a href="login_form.php">Login</a>
