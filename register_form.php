@@ -29,8 +29,10 @@ session_start();
     <div class="header">
 
       <div class="logo">
-        <img src="Images/logo.png" alt="ReadIt Logo">
-        <h3>ReadIt</h3>
+        <a href="index.php">
+          <img src="Images/logo.png" alt="ReadIt Logo">
+          <h3>ReadIt</h3>
+        </a>
       </div>
 
       <div class="navbar navhover">
@@ -48,7 +50,8 @@ session_start();
             if($_SESSION['logged_in']==true){
               echo "<a href='logout.php'>Logout</a>
               <a href='profile.php?Id=".$_SESSION['userId']."'>Profile</a>
-              <a href='post_creation_form.php'>Post Creation</a>";
+              <a href='post_creation_form.php'>Post Creation</a>
+              <a href='forum_creation_form.php'>Forum Creation</a>";
             }
             else{
               echo '<a href="login_form.php">Login</a>
@@ -89,7 +92,7 @@ session_start();
             <label>Birthday</label><br/>
             <input type="date" name="birthday" required><br/>
 
-            <button type="submit" name="register" class="buttonstyle">register</button>
+            <button type="submit" name="register" class='buttonstyle'>register</button>
           </form>
         </div>
 

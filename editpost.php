@@ -16,9 +16,11 @@ session_start();
   <body>
     <body>
       <?php
+      $postId = $_GET['Id'];
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
           if (isset($_POST['createPost'])){
-            require 'post_creation.php';
+            require "post_edit.php?Id=" . $postId . "";
           }
         }
         if (!$_SESSION['logged_in']){
@@ -31,12 +33,11 @@ session_start();
 
       <!-- Navbar -->
       <div class="header">
-
         <div class="logo">
-          <a href="index.php">
-            <img src="Images/logo.png" alt="ReadIt Logo">
-            <h3>ReadIt</h3>
-          </a>
+        <a href="index.php">
+          <img src="Images/logo.png" alt="ReadIt Logo">
+          <h3>ReadIt</h3>
+        </a>
         </div>
 
         <div class="navbar navhover">
@@ -75,16 +76,21 @@ session_start();
 
           <div class="signup">
             <p>Create your post</p>
+            <?php
+            $stmt = $db->prepare("SELECT Post.Title AS Title, Post.Message As Message, Forum.Title As ForumTitle FROM Post,Forum WHERE Post.Id = :postId AND Post.ForumId = Forum.Id");
+            $stmt->execute(array(':postId' => $postId));
+            $post = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            <form class="createpost" action="post_creation_form.php" method="post">
-
+            echo"
+            <form class='createpost' action='editpost.php?Id=" . $postId . "' method='post'>";
+              ?>
               <label>Title</label><br/>
-              <input type="text" name="postTitle" size="50" value="<?php echo $_SESSION['postTitle'];?>" placeholder="(Max. 100 Characters)" required><br/>
+              <input type="text" name="postTitle" size="50" value="<?php echo $post['Title'];?>" placeholder="(Max. 100 Characters)" disabled><br/>
 
               <label>Post</label><br/>
-              <textarea name="postMessage" rows="12" cols="64" size="50" placeholder="(Max. 4000 Characters)" required><?php echo $_SESSION['postMessage'];?></textarea><br/>
+              <textarea name="postMessage" rows="12" cols="64" size="50" placeholder="(Max. 4000 Characters)" required><?php echo $post['Message'];?></textarea><br/>
 
-              <select name="postForum" class="forumselect" value="<?php echo $_SESSION['postForum']; ?>" required>
+              <select name="postForum" class="forumselect" value="<?php echo $post['ForumTitle']; ?>" disabled>
                 <?php
                 for ($i = 1; $i <= 200; $i++) {
                   $stmt = $db->prepare("SELECT Forum.Id AS ForumId, Forum.Title AS ForumTitle FROM Forum ORDER BY Title LIMIT $i,1");

@@ -22,8 +22,10 @@ session_start();
     <div class="header">
 
       <div class="logo">
-        <img src="Images/logo.png" alt="ReadIt Logo">
-        <h3>ReadIt</h3>
+        <a href="index.php">
+          <img src="Images/logo.png" alt="ReadIt Logo">
+          <h3>ReadIt</h3>
+        </a>
       </div>
 
       <div class="navbar navhover">
@@ -41,7 +43,8 @@ session_start();
             if($_SESSION['logged_in']==true){
               echo "<a href='logout.php'>Logout</a>
               <a href='profile.php?Id=".$_SESSION['userId']."'>Profile</a>
-              <a href='post_creation_form.php'>Post Creation</a>";
+              <a href='post_creation_form.php'>Post Creation</a>
+              <a href='forum_creation_form.php'>Forum Creation</a>";
             }
             else{
               echo '<a href="login_form.php">Login</a>
@@ -85,7 +88,7 @@ session_start();
             </select>
             <input type='submit' class='buttonstyle' value='Sort'>
          </form>
-         <p>".$forum['ForumTitle']."</p>
+         <p>".htmlspecialchars($forum['ForumTitle'])."</p>
          ";
 
          ?>
@@ -156,6 +159,7 @@ session_start();
             }
 
             if (empty($_SESSION['userId'])) {
+              $NonLiked = true;
               $Liked = true;
             }
 
@@ -191,7 +195,7 @@ if ($Liked == False) {
               </form>
             </div>
           ";
-} else {
+} elseif ($NonLiked == false) {
           echo "
           <div class='post'>
               <div class='postheader'>
@@ -201,10 +205,25 @@ if ($Liked == False) {
               </div>
               <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='forum.php?Id=". $_GET['Id'] . "&Sort_Type=" . $_GET['Sort_Type'] . "&Sort_Date=" . $_GET['Sort_Date'] . "' method='POST'>
-              <input type='submit' class='buttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
+              <input type='submit' class='likedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
             </div>
         ";
+    }
+    else{
+      echo "
+      <div class='post'>
+          <div class='postheader'>
+            <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".htmlspecialchars($result['PostTitle'])."</b></a>
+            <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
+            <span class='postdate'>".$result['PostDate']."</span>
+          </div>
+          <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+          <form action='forum.php?Id=". $_GET['Id'] . "&Sort_Type=" . $_GET['Sort_Type'] . "&Sort_Date=" . $_GET['Sort_Date'] . "' method='POST'>
+          <input type='submit' class='likedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
+        </form>
+      </div>
+      ";
     }
 }
          ?>
@@ -219,7 +238,7 @@ if ($Liked == False) {
         <div class='sidebar'>
           <div class='sidebar-post'>
             <p class='sidebar-post-title'>Forum Description</p>
-            <p class='sidebar-post-text'>".$forum['ForumDescription']."</p>
+            <p class='sidebar-post-text'>".htmlspecialchars($forum['ForumDescription'])."</p>
           </div>
         </div>
         ";

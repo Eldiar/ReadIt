@@ -97,8 +97,10 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
    <div class="header">
 
      <div class="logo">
-       <img src="Images/logo.png" alt="ReadIt Logo">
-       <h3>ReadIt</h3>
+       <a href="index.php">
+         <img src="Images/logo.png" alt="ReadIt Logo">
+         <h3>ReadIt</h3>
+       </a>
      </div>
 
      <div class="navbar navhover">
@@ -116,7 +118,8 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
              if($_SESSION['logged_in']==true){
                echo "<a href='logout.php'>Logout</a>
                <a href='profile.php?Id=".$_SESSION['userId']."'>Profile</a>
-               <a href='post_creation_form.php'>Post Creation</a>";
+               <a href='post_creation_form.php'>Post Creation</a>
+               <a href='forum_creation_form.php'>Forum Creation</a>";
              }
              else{
                echo '<a href="login_form.php">Login</a>
@@ -152,6 +155,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
             <?php
             $Liked=false;
             if (empty($_SESSION['userId'])) {
+              $NonLiked = true;
               $Liked = true;
             }
             $Likedsql = $db->prepare("SELECT * FROM `Likes` WHERE PostId=$postId AND UserId=:userId");
@@ -167,6 +171,35 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
             }
           }
 
+          $editable = false;
+
+          $stmt = $db->prepare("SELECT User.Rank AS Ranking FROM User WHERE User.Id = :userId");
+          $stmt->execute(array(':userId' => $_SESSION['userId']));
+          $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+          if ($result['Ranking'] == 1) {
+            $editable = true;
+          }
+
+          if ($userdata['Id'] == $_SESSION['userId']) {
+            $editable = true;
+          }
+
+
+          if(isset($_POST['deleteclick'])){
+            $delete = $db->prepare("DELETE FROM `Likes` WHERE PostId = :postId");
+            $delete->execute(array(':postId' => $postId));
+
+            $delete = $db->prepare("DELETE FROM `Comment` WHERE PostId = :postId");
+            $delete->execute(array(':postId' => $postId));
+
+            $delete = $db->prepare("DELETE FROM `Post` WHERE PostId = :postId");
+            $delete->execute(array(':postId' => $postId));
+          }elseif (isset($_POST['editclick'])) {
+            header("location: editpost.php?Id=" . $postId . " ");
+          }
+
+
           $stmt = $db->prepare("SELECT COUNT(Likes.PostId) AS Likes FROM Likes WHERE Likes.PostId = :postId");
           $stmt->execute(array(':postId' => $postId));
           $likes = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -179,25 +212,45 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
             if ($Followed == false ) {
-              echo"
-              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?UserId=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
-              <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
-              <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")'/>
-              </form>
-               On: " . $post['Datum'] . "</p></b>";
-
+              if ($editable == false) {
+                echo"
+                <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
+                <form action='viewpost.php?Id=".$postId."' method='POST'>
+                <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")'/>
+                </form>
+                 On: " . $post['Datum'] . "</p></b>";
+              }else {
+                echo"
+                <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
+                <form action='viewpost.php?Id=".$postId."' method='POST'>
+                <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")'/>
+                <input type='submit' class='buttonstyle' name='deleteclick' value='Delete'/>
+                <input type='submit' class='buttonstyle' name='editclick' value='Edit'/>
+                </form>
+                On: " . $post['Datum'] . "</p></b>";
+              }
             }elseif ($NonFollowed == false) {
-              echo"
-              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?UserId=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
-              <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
-              <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
-              </form>
-               On: " . $post['Datum'] . "</p></b>";
-
+              if ($editable == false) {
+                echo"
+                <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
+                <form action='viewpost.php?Id=".$postId."' method='POST'>
+                <input type='submit' class='followedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
+                </form>
+                 On: " . $post['Datum'] . "</p></b>";
+              }else {
+                echo"
+                <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
+                <form action='viewpost.php?Id=".$postId."' method='POST'>
+                <input type='submit' class='followedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
+                <input type='submit' class='buttonstyle' name='deleteclick' value='Delete'/>
+                <input type='submit' class='buttonstyle' name='editclick' value='Edit'/>
+                </form>
+                On: " . $post['Datum'] . "</p></b>";
+              }
             }else {
               echo"
-              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?UserId=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
-              <form action='profile.php?Id=".$userdata['Id']."' method='POST'>
+              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
+              <form action='viewpost.php?Id=".$postId."' method='POST'>
               <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
               </form>
                On: " . $post['Datum'] . "</p></b>";
@@ -206,16 +259,20 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 
-            echo '<b><p class="extrainfo"> Post created by: <a class="userlink" href="profile.php?UserId=' . $userdata['Id'] . '" class="userlink" >' . htmlspecialchars($userdata['Username']) . '</a> On: ' . $post['Datum'] . '</p></b>';
+            echo '<b><p class="extrainfo"> Post created by: <a class="userlink" href="profile.php?Id=' . $userdata['Id'] . '" class="userlink" >' . htmlspecialchars($userdata['Username']) . '</a> On: ' . $post['Datum'] . '</p></b>';
 
             // Echoing the amount of likes a post has
             if ($Liked == false) {
               echo " <form action='viewpost.php?Id=".$postId."' method='POST'>
                      <input type='submit' class='buttonstyle' name='likeclick' value='Likes: ".$likes['Likes']."'/>
                      </form>";
+            } elseif ($NonLiked == false){
+              echo " <form action='viewpost.php?Id=".$postId."' method='POST'>
+                     <input type='submit' class='likedbuttonstyle' name='likeclick' value='Likes: ".$likes['Likes']."' disabled/>
+                     </form>";
             } else {
               echo " <form action='viewpost.php?Id=".$postId."' method='POST'>
-                     <input type='submit' class='buttonstyle' name='likeclick' value='Likes: ".$likes['Likes']."' disabled/>
+                     <input type='submit' class='nonlikedbuttonstyle' name='likeclick' value='Likes: ".$likes['Likes']."' disabled/>
                      </form>";
             }
 

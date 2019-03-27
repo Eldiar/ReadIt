@@ -33,6 +33,13 @@ else {
   $forumcreatedcheck->execute();
   $forumcreated = $forumcreatedcheck->fetch(PDO::FETCH_ASSOC);
 
+  $stmt = $db->prepare("SELECT User.Rank AS Ranking FROM User WHERE User.Id = :userId");
+  $stmt->execute(array(':userId' => $userId));
+  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  if ($result['Ranking'] == 1) {
+    $forumcreated = NULL;
+  }
   if (empty($forumcreated)) {
 
     $stmt = $db->prepare("INSERT INTO Forum (Title, Description, UserId)" .

@@ -17,8 +17,10 @@ session_start();
     <div class="header">
 
       <div class="logo">
-        <img src="Images/logo.png" alt="ReadIt Logo">
-        <h3>ReadIt</h3>
+        <a href="index.php">
+          <img src="Images/logo.png" alt="ReadIt Logo">
+          <h3>ReadIt</h3>
+        </a>
       </div>
 
       <div class="navbar navhover">
@@ -60,6 +62,7 @@ session_start();
         </div>
 
         <div class="maintop">
+          <!-- Sorting form-->
           <form action="index.php" method="get">
             <select name="Sort_Type">
               <option value="New">New</option>
@@ -74,7 +77,7 @@ session_start();
               <option value="Pastyear">Past Year</option>
               <option value="Alltime">All Time</option>
             </select>
-            <input type="submit" value='Sort' class="buttonstyle">
+            <input type="submit" value='Sort' class='buttonstyle'>
          </form>
           <p>Home</p>
 
@@ -92,6 +95,7 @@ session_start();
         <!-- Main feed-->
         <div class="main">
           <?php
+          //catch for the sorting form
           $controverial = false;
           $orderType = 'Datum';
           $timeDifference = 999999999;
@@ -130,6 +134,7 @@ session_start();
               $orderType = 'Datum';
             }
           }
+          //checking if user is following any other users or forums
           $nofeedcheck = $db->prepare("SELECT * FROM `Volgen` WHERE UserId=:userId");
           $nofeedcheck->execute(array('userId' => $_SESSION['userId']));
           $nofeed = $nofeedcheck->fetch(PDO::FETCH_ASSOC);
@@ -141,9 +146,10 @@ session_start();
           if (empty($nofeed) && empty($noperson)) {
           echo "try following some forums or people. If you do so you will get a personalised feed here with only the things you want to see.";
           }
+          //post showing loop
           for ($i = 0; $i <= 19; $i++) {
             $Liked = false;
-
+            //Select querys for posts with controversial sorting
             if ($controverial == true) {
               if($_SESSION['logged_in']==true){
 
@@ -160,6 +166,7 @@ session_start();
                 $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comment WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comment.PostId GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
               }
             }else {
+              //Select querys for posts without controversial sorting
               if($_SESSION['logged_in']==true){
                 $nofeedcheck = $db->prepare("SELECT * FROM `Volgen` WHERE UserId=:userId");
                 $nofeedcheck->execute(array('userId' => $_SESSION['userId']));
@@ -183,6 +190,7 @@ session_start();
             }
 
             if (empty($_SESSION['userId'])) {
+              $NonLiked = true;
               $Liked = true;
             }
 
@@ -214,11 +222,11 @@ if ($Liked == False) {
               </div>
               <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='index.php?Sort_Type=".$_GET['Sort_Type']."&Sort_Date=".$_GET['Sort_Date']."' method='POST'>
-              <input type='submit' class="buttonstyle" name='".$i."' value='Likes: ".$likes['Likes']."'/>
+              <input type='submit' class='buttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."'/>
               </form>
             </div>
           ";
-} else {
+} elseif ($NonLiked == False) {
           echo "
           <div class='post'>
               <div class='postheader'>
@@ -228,10 +236,25 @@ if ($Liked == False) {
               </div>
               <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
               <form action='index.php?Sort_Type=".$_GET['Sort_Type']."&Sort_Date=".$_GET['Sort_Date']."' method='POST'>
-              <input type='submit' class="buttonstyle" name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
+              <input type='submit' class='likedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
             </div>
         ";
+    }
+    else{
+      echo "
+      <div class='post'>
+          <div class='postheader'>
+            <a href='viewpost.php?Id=".$result['PostId']."' class='posttitle'><b>".htmlspecialchars($result['PostTitle'])."</b></a>
+            <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
+            <span class='postdate'>".$result['PostDate']."</span>
+          </div>
+          <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+          <form action='index.php?Sort_Type=".$_GET['Sort_Type']."&Sort_Date=".$_GET['Sort_Date']."' method='POST'>
+          <input type='submit' class='nonlikedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
+          </form>
+        </div>
+    ";
     }
 }
          ?>
