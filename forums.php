@@ -101,14 +101,14 @@ session_start();
             $Followedsql->execute(array('userId' => $_SESSION['userId']));
             $Followedcheck = $Followedsql->fetch(PDO::FETCH_ASSOC);
             if (!empty($Followedcheck)){
-              if(isset($_POST[$i])){
+              if(isset($_POST['unfollow'.$i])){
                 $unFollow_sql = $db->prepare("DELETE FROM `Volgen` WHERE Volgen.UserId = :userId AND Volgen.ForumId = :ForumId");
                 $unFollow_sql->execute(array(':ForumId' => $result['ForumId'], ':userId' => $_SESSION['userId']));
               } else {
                 $Followed = true;
               }
             } else {
-            if(isset($_POST[$i])){
+            if(isset($_POST['follow'.$i])){
               $Follow_sql = $db->prepare("INSERT INTO `Volgen`(`ForumId`, `UserId`) VALUES (:ForumId, :userId)");
               $Follow_sql->execute(array(':ForumId' => $result['ForumId'], ':userId' => $_SESSION['userId']));
               $Followed = true;
@@ -127,7 +127,7 @@ session_start();
                   </div>
                     <p class='posttext'>".htmlspecialchars($result['ForumDescription'])."</p>
                     <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
-                    <input type='submit' class='buttonstyle' name='".$i."' value='Follow(".$follows['Follows'].")'/>
+                    <input type='submit' class='buttonstyle' name='follow".$i."' value='Follow(".$follows['Follows'].")'/>
                     </form>
                 </div>
             ";
@@ -139,7 +139,7 @@ session_start();
                   </div>
                     <p class='posttext'>".htmlspecialchars($result['ForumDescription'])."</p>
                     <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
-                    <input type='submit' class='followedbuttonstyle' name='".$i."' value='Follow(".$follows['Follows'].")' style='color:blue'/>
+                    <input type='submit' class='followedbuttonstyle' name='unfollow".$i."' value='Follow(".$follows['Follows'].")' style='color:blue'/>
                     </form>
                 </div>
             ";
@@ -151,7 +151,7 @@ session_start();
                 </div>
                   <p class='posttext'>".htmlspecialchars($result['ForumDescription'])."</p>
                   <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
-                  <input type='submit' class='buttonstyle' name='".$i."' value='Follow(".$follows['Follows'].")' disabled/>
+                  <input type='submit' class='buttonstyle' name='' value='Follow(".$follows['Follows'].")' disabled/>
                   </form>
               </div>
           ";
