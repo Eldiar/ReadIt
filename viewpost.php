@@ -97,8 +97,10 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
    <div class="header">
 
      <div class="logo">
-       <img src="Images/logo.png" alt="ReadIt Logo">
-       <h3>ReadIt</h3>
+       <a href="index.php">
+         <img src="Images/logo.png" alt="ReadIt Logo">
+         <h3>ReadIt</h3>
+       </a>
      </div>
 
      <div class="navbar navhover">

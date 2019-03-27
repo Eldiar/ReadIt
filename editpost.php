@@ -33,10 +33,11 @@ session_start();
 
       <!-- Navbar -->
       <div class="header">
-
         <div class="logo">
+        <a href="index.php">
           <img src="Images/logo.png" alt="ReadIt Logo">
           <h3>ReadIt</h3>
+        </a>
         </div>
 
         <div class="navbar navhover">
