@@ -190,8 +190,10 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
             $delete = $db->prepare("DELETE FROM `Comment` WHERE PostId = :postId");
             $delete->execute(array(':postId' => $postId));
 
-            $delete = $db->prepare("DELETE FROM `Post` WHERE PostId = :postId");
+            $delete = $db->prepare("DELETE FROM `Post` WHERE Id = :postId");
             $delete->execute(array(':postId' => $postId));
+
+            header("location:index.php");
           }elseif (isset($_POST['editclick'])) {
             header("location: editpost.php?Id=" . $postId . " ");
           }

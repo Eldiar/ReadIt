@@ -8,7 +8,7 @@ session_start();
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ReadIt - Post Creation</title>
+    <title>ReadIt - Post Editing</title>
 
     <!-- CSS Link -->
       <link rel="stylesheet" type="text/css" href="readitstyle.css">
@@ -20,7 +20,7 @@ session_start();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
           if (isset($_POST['createPost'])){
-            require "post_edit.php?Id=" . $postId . "";
+            require 'post_edit.php';
           }
         }
         if (!$_SESSION['logged_in']){
@@ -73,7 +73,7 @@ session_start();
           <div class="between25"></div>
 
           <div class="signup">
-            <p>Create your post</p>
+            <p>Edit your post</p>
             <?php
             $stmt = $db->prepare("SELECT Post.Title AS Title, Post.Message As Message, Forum.Title As ForumTitle FROM Post,Forum WHERE Post.Id = :postId AND Post.ForumId = Forum.Id");
             $stmt->execute(array(':postId' => $postId));
@@ -104,7 +104,11 @@ session_start();
                 }
                 ?>
               </select>
-
+              <?php
+              echo "<select class='invisible' name='Id'>
+                <option value=" . $postId . "></option>
+              </select>";
+              ?>
               <button type="submit" name="createPost" class='buttonstyle'>Submit</button>
               <!-- ADD EMPTYING CACHE BUTTON -->
 

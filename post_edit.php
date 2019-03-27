@@ -1,7 +1,7 @@
 <?php
 
 // Retrieving post information from POST
-$postId = $_GET['Id'];
+$postId = $_POST['Id'];
 
 $postMessage = $_POST['postMessage'];
 
@@ -18,7 +18,7 @@ if (strlen($postMessage) > 4000) {
   $userId = $_SESSION['userId'];
 
   // Instert Post Data into database
-  $stmt = $db->prepare("UPDATE Post SET Message=:postMessage WHERE Post.Id=$postId");
+  $stmt = $db->prepare("UPDATE Post SET Message=:postMessage WHERE Id=$postId");
 
   if($stmt->execute(array(':postMessage'=> $postMessage))){
 
