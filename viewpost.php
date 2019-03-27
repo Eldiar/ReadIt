@@ -46,11 +46,10 @@ session_start();
 
 
   $Followed = false;
-  $NonFollowed = false;
+  $NonFollowable = false;
 
   if (empty($_SESSION['userId'])) {
-    $NonFollowed = true;
-    $Followed = true;
+    $NonFollowable = true;
   }
 
   $Followedsql = $db->prepare("SELECT * FROM `PersoonVolgen` WHERE Volgend=:userId AND Gevolgd=:gevolgdId");
@@ -187,6 +186,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
           if ($userdata['Id'] == $_SESSION['userId']) {
             $editable = true;
             $deletable = true;
+            $NonFollowable = true; //sets the user as non logged in for use on the follow button
           }
 
 
@@ -216,34 +216,35 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
             // Echoing post information (User, datetime)
 
 
+            // Post Option Buttons
 
             echo "
               <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
               <form action='viewpost.php?Id=".$postId."' method='POST'>
             ";
 
-            if ($Followed == false){
+            if ($NonFollowable == true){
               echo "
-                <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")'/>
+                <input type='submit' class='followedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
               ";
             }
-            elseif ($NonFollowed == false){
+            elseif ($Followed == true){
               echo "
                 <input type='submit' class='followedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
               ";
             }
             else {
               echo "
-                <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
+                <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")'/>
               ";
             }
-
+            // Displays delete button
             if ($deletable == true){
               echo "
               <input type='submit' class='buttonstyle' name='deleteclick' value='Delete'/>
               ";
             }
-
+            // Displays edit button
             if ($editable == true){
               echo "
                 <input type='submit' class='buttonstyle' name='editclick' value='Edit'/>
@@ -256,7 +257,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
             ";
 
 
-            /*
+/*
 
             if ($Followed == false ) {
               if ($editable == false) {
@@ -276,7 +277,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
                 </form>
                 On: " . $post['Datum'] . "</p></b>";
               }
-            }elseif ($NonFollowed == false) {
+            }elseif ($NonFollowable == false) {
               if ($editable == false) {
                 echo"
                 <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
@@ -309,7 +310,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
 
             echo '<b><p class="extrainfo"> Post created by: <a class="userlink" href="profile.php?Id=' . $userdata['Id'] . '" class="userlink" >' . htmlspecialchars($userdata['Username']) . '</a> On: ' . $post['Datum'] . '</p></b>';
 
-            // Echoing the amount of likes a post has
+            // Display like button with amount of likes
             if ($Liked == false) {
               echo " <form action='viewpost.php?Id=".$postId."' method='POST'>
                      <input type='submit' class='buttonstyle' name='likeclick' value='Likes: ".$likes['Likes']."'/>
@@ -362,7 +363,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
                 }
               }
 
-
+              // Displaying the comments on a post
               for ($i = 0; $i <= 19; $i++) {
 
                 $stmt = $db->prepare("SELECT User.Username As Username, User.Id AS CommenterId, Comment.Datum As CommentDate, Comment.Message As CommentMessage FROM Comment,User WHERE Comment.UserId=User.Id AND Comment.PostId = $postId ORDER BY Comment.Datum DESC LIMIT $i,1");

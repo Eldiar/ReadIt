@@ -19,15 +19,15 @@ if(!$profile){ //User doesn't exist
 }
 
 $Followed = false;
-$NonFollowed = false;
+$NonFollowable = false;
 
 if ($_SESSION['userId'] == $profileId) {
-  $NonFollowed = true;
+  $NonFollowable = true;
   $Followed = true;
 }
 
 if (empty($_SESSION['userId'])) {
-  $NonFollowed = true;
+  $NonFollowable = true;
   $Followed = true;
 }
 
@@ -126,13 +126,13 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
           <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")'/>
           </form>
           ";
-        }elseif ($NonFollowed == false) {
+        }elseif ($NonFollowable == false) {
           echo"
             <div class='maintop'>
               <p>".htmlspecialchars($profile[Username])."'s profile</p>
             </div>
           <form action='profile.php?Id=".$profileId."' method='POST'>
-          <input type='submit' class='followedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
+          <input type='submit' class='followedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")'/>
           </form>
           ";
         }else {

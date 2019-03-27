@@ -8,7 +8,7 @@ if ($_SESSION['rank'] == 0) {
 
   header("location: error.php");
 }
-if (!$_SESSION['logged_in'] == true) {
+if ($_SESSION['logged_in'] != true) {
   $_SESSION['message'] = "You must be logged in to visit this page!";
   $_SESSION['ErrorType'] = "login";
 
@@ -127,8 +127,11 @@ if (!$_SESSION['logged_in'] == true) {
               </tr>
             </table>
 
-            <form action='administration.php' method='POST'>
-              <input type='submit' class='buttonstyle' name='action' value='delete'/>
+            <form action='administration.php' method='POST'>";
+            if($_SESSION['userId'] != $user['Id']){
+              echo "<input type='submit' class='buttonstyle' name='action' value='delete'/>";
+            }
+            echo "
               <input type='submit' class='buttonstyle' name='action' value='promote'/>
               <input type='submit' class='buttonstyle' name='action' value='profile'/>
               <select name='Id' class='invisible'>

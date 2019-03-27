@@ -14,19 +14,23 @@ if (!isset($userId) || empty($userId)){
 // On "deleting" a user, all data remains stored, password is set to normal text instead of a hash which makes the account inaccessable
 elseif ($task == "delete"){
 
-//Sets the password for deleted users to Grasmaaier123
-$stmt = $db->prepare("UPDATE User set Password=:deletedPass WHERE Id=:userId");
-$stmt->execute(array(':deletedPass'=> 'Grasmaaier123', ':userId' => $userId));
+  //Sets the password for deleted users to Grasmaaier123
+  $stmt = $db->prepare("UPDATE User set Password=:deletedPass WHERE Id=:userId");
+  $stmt->execute(array(':deletedPass'=> 'Grasmaaier123', ':userId' => $userId));
 
-header("location: administration_user.php");
+  header("location: administration_user.php");
 }
 
 // Promoting user to Administrator
 elseif ($task == "promote"){
+  $stmt = $db->prepare("UPDATE User set Rank=1 WHERE Id=:userId");
+  $stmt->execute(array(':userId' => $userId));
+
+  header("location: administration_user.php");
 }
 // Heading to users profile (to delete specific messages)
 elseif ($task == "profile") {
-
+  header("location: profile.php?Id=" . $userId);
 }
 
 else {
