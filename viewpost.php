@@ -97,8 +97,10 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
    <div class="header">
 
      <div class="logo">
-       <img src="Images/logo.png" alt="ReadIt Logo">
-       <h3>ReadIt</h3>
+       <a href="index.php">
+         <img src="Images/logo.png" alt="ReadIt Logo">
+         <h3>ReadIt</h3>
+       </a>
      </div>
 
      <div class="navbar navhover">
@@ -116,11 +118,15 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
              if($_SESSION['logged_in']==true){
                echo "<a href='logout.php'>Logout</a>
                <a href='profile.php?Id=".$_SESSION['userId']."'>Profile</a>
-               <a href='post_creation_form.php'>Post Creation</a>";
+               <a href='post_creation_form.php'>Post Creation</a>
+               <a href='forum_creation_form.php'>Forum Creation</a>";
              }
              else{
                echo '<a href="login_form.php">Login</a>
                <a href="register_form.php">Sign Up</a>';
+             }
+             if ($_SESSION['rank'] == 1){
+               echo '<a href="register_form.php">User Administration</a>';
              }
              ?>
            </div>

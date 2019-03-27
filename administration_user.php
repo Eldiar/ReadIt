@@ -29,8 +29,10 @@ if (!$_SESSION['logged_in'] == true) {
     <div class="header">
 
       <div class="logo">
-        <img src="Images/logo.png" alt="ReadIt Logo">
-        <h3>ReadIt</h3>
+        <a href="index.php">
+          <img src="Images/logo.png" alt="ReadIt Logo">
+          <h3>ReadIt</h3>
+        </a>
       </div>
 
       <div class="navbar navhover">
@@ -48,7 +50,8 @@ if (!$_SESSION['logged_in'] == true) {
             if($_SESSION['logged_in']==true){
               echo "<a href='logout.php'>Logout</a>
               <a href='profile.php?Id=".$_SESSION['userId']."'>Profile</a>
-              <a href='post_creation_form.php'>Post Creation</a>";
+              <a href='post_creation_form.php'>Post Creation</a>
+              <a href='forum_creation_form.php'>Forum Creation</a>";
             }
             else{
               echo '<a href="login_form.php">Login</a>
@@ -104,6 +107,7 @@ if (!$_SESSION['logged_in'] == true) {
             // Id, Username, Birthday, Firstname, Lastname, Rank
             // Button to profile (where messages can be deleted), delete account button, promote to admin button
             // use HTML table
+            if ($user['Password'] != "DELETED"){
           echo "
           <div class='post'>
             <table>
@@ -123,14 +127,17 @@ if (!$_SESSION['logged_in'] == true) {
               </tr>
             </table>
 
-            <form action='administration.php?Id=".$user['Id']."' method='POST'>
+            <form action='administration.php' method='POST'>
               <input type='submit' class='buttonstyle' name='action' value='delete'/>
               <input type='submit' class='buttonstyle' name='action' value='promote'/>
               <input type='submit' class='buttonstyle' name='action' value='profile'/>
+              <select name='Id' class='invisible'>
+                <option value=". $user['Id']. "></option>
+              </select>
             </form>
 
           </div>
-          ";
+          ";}
     }
 
          ?>

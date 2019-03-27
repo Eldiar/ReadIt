@@ -7,6 +7,7 @@ session_start();
 //Checking if the linked post exists
 $profileId = $_GET['Id'];
 
+//Preparing profile data
 $stmt = $db->prepare("SELECT Id, Username, Birthday, Firstname, Lastname, TIMESTAMPDIFF(YEAR, Birthday, CURDATE()) AS Age FROM User WHERE User.Id = :profileId");
 $stmt->execute(array(':profileId' => $profileId));
 $profile = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -74,8 +75,10 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="header">
 
       <div class="logo">
-        <img src="Images/logo.png" alt="ReadIt Logo">
-        <h3>ReadIt</h3>
+        <a href="index.php">
+          <img src="Images/logo.png" alt="ReadIt Logo">
+          <h3>ReadIt</h3>
+        </a>
       </div>
 
       <div class="navbar navhover">
@@ -99,6 +102,9 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               echo '<a href="login_form.php">Login</a>
               <a href="register_form.php">Sign Up</a>';
 
+            }
+            if ($_SESSION['rank'] == 1){
+              echo '<a href="register_form.php">User Administration</a>';
             }
             ?>
           </div>
@@ -194,7 +200,18 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
           $stmt = $db->prepare("SELECT COUNT(Likes.PostId) AS RecievedLikes FROM Likes, User, Post WHERE Likes.PostId=Post.Id AND Post.UserId=User.Id AND User.Id = :profileId");
           $stmt->execute(array(':profileId' => $profileId));
           $recievedlikes = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        if ($profile['Firstname'] == NULL) {
+          $firstname = '-';
+        }
+        else{
+          $firstname = $profile['Firstname'];
+        }
+        if ($profile['Lastname'] == NULL) {
+          $lastname = '-';
+        }
+        else{
+          $lastname = $profile['Lastname'];
+        }
         if ($Liked == False) {
 
           echo "
@@ -253,8 +270,8 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
         <div class='sidebar'>
           <div class='sidebar-post'>
             <p class='sidebar-post-title'>".htmlspecialchars($profile['Username'])."</p>
-            <p class='sidebar-post-text'>First Name: ".htmlspecialchars($profile['Firstname'])."</p>
-            <p class='sidebar-post-text'>Last Name: ".htmlspecialchars($profile['Lastname'])."</p>
+            <p class='sidebar-post-text'>First Name: ".htmlspecialchars($firstname)."</p>
+            <p class='sidebar-post-text'>Last Name: ".htmlspecialchars($lastname)."</p>
             <p class='sidebar-post-text'>Birthday: ".htmlspecialchars($profile['Birthday'])."</p>
             <p class='sidebar-post-text'>Age: ".htmlspecialchars($profile['Age'])."</p>
             <p class='sidebar-post-text'>Likes given: ".$givenlikes['GivenLikes']."</p>
