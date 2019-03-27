@@ -47,6 +47,9 @@ session_start();
           echo "<a href='logout.php'>Logout</a>
           <a href='profile.php?Id=".$_SESSION['userId']."'>Profile</a>";
           }
+          if ($_SESSION['rank'] == 1){
+            echo '<a href="register_form.php">User Administration</a>';
+          }
           ?>
         </div>
       </div>

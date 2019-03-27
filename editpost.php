@@ -62,6 +62,10 @@ session_start();
                 echo '<a href="login_form.php">Login</a>
                 <a href="register_form.php">Sign Up</a>';
               }
+
+              if ($_SESSION['rank'] == 1){
+                echo '<a href="register_form.php">User Administration</a>';
+              }
               ?>
             </div>
           </div>
