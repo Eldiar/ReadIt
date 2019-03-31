@@ -20,7 +20,7 @@ if ($_SESSION['logged_in'] != true) {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ReadIt - Home</title>
+    <title>ReadIt - Forum Administration</title>
 
     <!-- CSS Link -->
     <link rel="stylesheet" type="text/css" href="readitstyle.css">
@@ -59,7 +59,8 @@ if ($_SESSION['logged_in'] != true) {
             }
 
             if ($_SESSION['rank'] == 1){
-              echo '<a href="administration_user.php">User Administration</a>';
+              echo '<a href="administration_user.php">User Administration</a>
+              <a href="administration_forums.php">User Administration</a>';
             }
             ?>
           </div>
@@ -93,8 +94,7 @@ if ($_SESSION['logged_in'] != true) {
           <?php
           for ($i = 0; $i <= 19; $i++) {
 
-            $userId = $_SESSION['userId'];
-            $stmt = $db->prepare("SELECT * FROM User ORDER BY User.Username DESC LIMIT $i,1");
+            $stmt = $db->prepare("SELECT * FROM Forum ORDER BY User.Username DESC LIMIT $i,1");
             $stmt->execute();
 
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -107,41 +107,29 @@ if ($_SESSION['logged_in'] != true) {
             // Id, Username, Birthday, Firstname, Lastname, Rank
             // Button to profile (where messages can be deleted), delete account button, promote to admin button
             // use HTML table
-            if ($user['Password'] != "DELETED"){
           echo "
           <div class='post'>
             <table>
               <tr>
-                <th>Username</th>
-                <th>Birthday</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Rank</th>
+                <th>Title                     </th>
+                <th>Description                                 </th>
               </tr>
               <tr>
-                <td>". htmlspecialchars($user['Username']) . "</td>
-                <td>". htmlspecialchars($user['Birthday']) ."</td>
-                <td>". htmlspecialchars($user['Firstname']) ."</td>
-                <td>". htmlspecialchars($user['Lastname'])."</td>
-                <td>". $user['Rank']."</td>
+                <td>". htmlspecialchars($user['Title']) . "</td>
+                <td>". htmlspecialchars($user['Descriptoin']) ."</td>
               </tr>
             </table>
 
-            <form action='administration.php' method='POST'>";
-            if($_SESSION['userId'] != $user['Id']){
-              echo "<input type='submit' class='buttonstyle' name='action' value='delete'/>";
-            }
-            echo "
-              <input type='submit' class='buttonstyle' name='action' value='promote'/>
-              <input type='submit' class='buttonstyle' name='action' value='profile'/>
+            <form action='administration.php' method='POST'>
+              <input type='submit' class='buttonstyle' name='action' value='deleteForum'/>;
               <select name='Id' class='invisible'>
-                <option value=". $user['Id']. "></option>
+                <option value=". $forum['Id']. "></option>
               </select>
             </form>
 
           </div>
-          ";}
-    }
+          ";
+        }
 
          ?>
         </div>
@@ -154,7 +142,7 @@ if ($_SESSION['logged_in'] != true) {
           <div class="sidebar-post">
             <p class="sidebar-post-title">Warning!</p>
 
-            <p> Deleting a user account cannot be undone! </p>
+            <p>Deleting a forum cannot be undone!</p>
 
           </div>
         </div>
