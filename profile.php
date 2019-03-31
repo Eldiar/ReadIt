@@ -104,7 +104,8 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
 
             }
             if ($_SESSION['rank'] == 1){
-              echo '<a href="administration_user.php">User Administration</a>';
+              echo '<a href="administration_user.php">User Administration</a>
+              <a href="administration_forums.php">Forum Administration</a>';
             }
             ?>
           </div>
@@ -200,18 +201,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
           $stmt = $db->prepare("SELECT COUNT(Likes.PostId) AS RecievedLikes FROM Likes, User, Post WHERE Likes.PostId=Post.Id AND Post.UserId=User.Id AND User.Id = :profileId");
           $stmt->execute(array(':profileId' => $profileId));
           $recievedlikes = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($profile['Firstname'] == NULL) {
-          $firstname = '-';
-        }
-        else{
-          $firstname = $profile['Firstname'];
-        }
-        if ($profile['Lastname'] == NULL) {
-          $lastname = '-';
-        }
-        else{
-          $lastname = $profile['Lastname'];
-        }
+
         if ($Liked == False) {
 
           echo "
@@ -221,7 +211,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
                 <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+              <p class='posttext'>". nl2br(htmlspecialchars($result['PostMessage']))."</p>
               <form action='profile.php?Id=".$profileId."' method='POST'>
               <input type='submit' class='buttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."'/>
               </form>
@@ -235,7 +225,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
                 <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+              <p class='posttext'>". nl2br(htmlspecialchars($result['PostMessage']))."</p>
               <form action='profile.php?Id=".$profileId."' method='POST'>
               <input type='submit' class='likedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
@@ -250,7 +240,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
                 <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+              <p class='posttext'>". nl2br(htmlspecialchars($result['PostMessage']))."</p>
               <form action='profile.php?Id=".$profileId."' method='POST'>
               <input type='submit' class='nonlikedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
@@ -270,8 +260,8 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
         <div class='sidebar'>
           <div class='sidebar-post'>
             <p class='sidebar-post-title'>".htmlspecialchars($profile['Username'])."</p>
-            <p class='sidebar-post-text'>First Name: ".htmlspecialchars($firstname)."</p>
-            <p class='sidebar-post-text'>Last Name: ".htmlspecialchars($lastname)."</p>
+            <p class='sidebar-post-text'>First Name: ".htmlspecialchars($profile['Firstname'])."</p>
+            <p class='sidebar-post-text'>Last Name: ".htmlspecialchars($profile['Lastname'])."</p>
             <p class='sidebar-post-text'>Birthday: ".htmlspecialchars($profile['Birthday'])."</p>
             <p class='sidebar-post-text'>Age: ".htmlspecialchars($profile['Age'])."</p>
             <p class='sidebar-post-text'>Likes given: ".$givenlikes['GivenLikes']."</p>

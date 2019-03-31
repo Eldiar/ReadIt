@@ -125,7 +125,8 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
                <a href="register_form.php">Sign Up</a>';
              }
              if ($_SESSION['rank'] == 1){
-               echo '<a href="administration_user.php">User Administration</a>';
+               echo '<a href="administration_user.php">User Administration</a>
+               <a href="administration_forums.php">Forum Administration</a>';
              }
              ?>
            </div>
@@ -194,7 +195,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
             $delete = $db->prepare("DELETE FROM `Likes` WHERE PostId = :postId");
             $delete->execute(array(':postId' => $postId));
 
-            $delete = $db->prepare("DELETE FROM `Comment` WHERE PostId = :postId");
+            $delete = $db->prepare("DELETE FROM `Comments` WHERE PostId = :postId");
             $delete->execute(array(':postId' => $postId));
 
             $delete = $db->prepare("DELETE FROM `Post` WHERE Id = :postId");
@@ -211,10 +212,9 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
           $likes = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Echoing the post message
-            echo '<p class="mainpost">' . htmlspecialchars($post['Message']) . '</p>';
+            echo '<p class="mainpost">' . nl2br(htmlspecialchars($post['Message'])) . '</p>';
 
             // Echoing post information (User, datetime)
-
 
             // Post Option Buttons
 
@@ -256,58 +256,6 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               On: " . $post['Datum'] . "</p></b>
             ";
 
-
-/*
-
-            if ($Followed == false ) {
-              if ($editable == false) {
-                echo"
-                <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
-                <form action='viewpost.php?Id=".$postId."' method='POST'>
-                <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")'/>
-                </form>
-                 On: " . $post['Datum'] . "</p></b>";
-              }else {
-                echo"
-                <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
-                <form action='viewpost.php?Id=".$postId."' method='POST'>
-                <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")'/>
-                <input type='submit' class='buttonstyle' name='deleteclick' value='Delete'/>
-                <input type='submit' class='buttonstyle' name='editclick' value='Edit'/>
-                </form>
-                On: " . $post['Datum'] . "</p></b>";
-              }
-            }elseif ($NonFollowable == false) {
-              if ($editable == false) {
-                echo"
-                <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
-                <form action='viewpost.php?Id=".$postId."' method='POST'>
-                <input type='submit' class='followedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
-                </form>
-                 On: " . $post['Datum'] . "</p></b>";
-              }else {
-                echo"
-                <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
-                <form action='viewpost.php?Id=".$postId."' method='POST'>
-                <input type='submit' class='followedbuttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' style='color:blue'/>
-                <input type='submit' class='buttonstyle' name='deleteclick' value='Delete'/>
-                <input type='submit' class='buttonstyle' name='editclick' value='Edit'/>
-                </form>
-                On: " . $post['Datum'] . "</p></b>";
-              }
-            }else {
-              echo"
-              <b><p class='extrainfo'> Post created by: <a class='userlink' href='profile.php?Id=".$userdata['Id']."' class='userlink'>" . htmlspecialchars($userdata['Username']) . "</a>
-              <form action='viewpost.php?Id=".$postId."' method='POST'>
-              <input type='submit' class='buttonstyle' name='followclick' value='Follow(".$follows['Follows'].")' disabled/>
-              </form>
-               On: " . $post['Datum'] . "</p></b>";
-            }
-
-            */
-
-
-
             echo '<b><p class="extrainfo"> Post created by: <a class="userlink" href="profile.php?Id=' . $userdata['Id'] . '" class="userlink" >' . htmlspecialchars($userdata['Username']) . '</a> On: ' . $post['Datum'] . '</p></b>';
 
             // Display like button with amount of likes
@@ -341,7 +289,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
             $Commented = false;
             for ($i = 0; $i <= 19; $i++) {
 
-              $stmt = $db->prepare("SELECT User.Username As Username, User.Id AS CommenterId, Comment.Datum As CommentDate, Comment.Message As CommentMessage FROM Comment,User WHERE Comment.UserId=User.Id AND Comment.PostId = $postId ORDER BY Comment.Datum DESC LIMIT $i,1");
+              $stmt = $db->prepare("SELECT User.Username As Username, User.Id AS CommenterId, Comments.Datum As CommentDate, Comments.Message As CommentMessage FROM Comments ,User WHERE Comments.UserId=User.Id AND Comments.PostId = $postId ORDER BY Comments.Datum DESC LIMIT $i,1");
               $stmt->execute();
               $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -358,7 +306,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
 
               if ($Commented == false) {
                 if (isset($_POST['createComment'])) {
-                  $Comment_sql = $db->prepare("INSERT INTO `Comment`(`PostId`, `UserId`, `Message`) VALUES ($postId, :userId, :commentMessage)");
+                  $Comment_sql = $db->prepare("INSERT INTO `Comments`(`PostId`, `UserId`, `Message`) VALUES ($postId, :userId, :commentMessage)");
                   $Comment_sql->execute(array(':userId' => $_SESSION['userId'], ':commentMessage' => $_POST['commentMessage']));
                 }
               }
@@ -366,7 +314,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
               // Displaying the comments on a post
               for ($i = 0; $i <= 19; $i++) {
 
-                $stmt = $db->prepare("SELECT User.Username As Username, User.Id AS CommenterId, Comment.Datum As CommentDate, Comment.Message As CommentMessage FROM Comment,User WHERE Comment.UserId=User.Id AND Comment.PostId = $postId ORDER BY Comment.Datum DESC LIMIT $i,1");
+                $stmt = $db->prepare("SELECT User.Username As Username, User.Id AS CommenterId, Comments.Datum As CommentDate, Comments.Message As CommentMessage FROM Comments,User WHERE Comments.UserId=User.Id AND Comments.PostId = $postId ORDER BY Comments.Datum DESC LIMIT $i,1");
                 $stmt->execute();
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -382,7 +330,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 echo"
                 <div class='post'>
-                      <p class='commenttext mainpost'>".htmlspecialchars($result['CommentMessage'])."</p>
+                      <p class='commenttext mainpost'>". nl2br(htmlspecialchars($result['CommentMessage']))."</p>
                       <b><a href='profile.php?Id=".$result['CommenterId']."' class='commentuser extrainfo'>".htmlspecialchars($result['Username'])."</a></b>
                       <br>
                       <b><span class='commentdate extrainfo'>".$result['CommentDate']."</span></b>

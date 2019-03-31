@@ -59,7 +59,8 @@ if ($_SESSION['logged_in'] != true) {
             }
 
             if ($_SESSION['rank'] == 1){
-              echo '<a href="administration_user.php">User Administration</a>';
+              echo '<a href="administration_user.php">User Administration</a>
+              <a href="administration_forums.php">Forum Administration</a>';
             }
             ?>
           </div>
@@ -107,7 +108,7 @@ if ($_SESSION['logged_in'] != true) {
             // Id, Username, Birthday, Firstname, Lastname, Rank
             // Button to profile (where messages can be deleted), delete account button, promote to admin button
             // use HTML table
-            if ($user['Password'] != "DELETED"){
+            if ($user['Password'] != "Grasmaaier123"){
           echo "
           <div class='post'>
             <table>
@@ -128,11 +129,13 @@ if ($_SESSION['logged_in'] != true) {
             </table>
 
             <form action='administration.php' method='POST'>";
-            if($_SESSION['userId'] != $user['Id']){
+            if($_SESSION['userId'] != $user['Id'] && $user['Rank'] != 1){
               echo "<input type='submit' class='buttonstyle' name='action' value='delete'/>";
             }
+            if($user['Rank'] != 1){
+              echo "<input type='submit' class='buttonstyle' name='action' value='promote'/>";
+            }
             echo "
-              <input type='submit' class='buttonstyle' name='action' value='promote'/>
               <input type='submit' class='buttonstyle' name='action' value='profile'/>
               <select name='Id' class='invisible'>
                 <option value=". $user['Id']. "></option>

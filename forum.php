@@ -51,7 +51,8 @@ session_start();
               <a href="register_form.php">Sign Up</a>';
             }
             if ($_SESSION['rank'] == 1){
-              echo '<a href="administration_user.php">User Administration</a>';
+              echo '<a href="administration_user.php">User Administration</a>
+              <a href="administration_forums.php">Forum Administration</a>';
             }
             ?>
           </div>
@@ -150,7 +151,7 @@ session_start();
           for ($i = 0; $i <= 19; $i++) {
             $Liked = false;
             if ($controverial == true) {
-              $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comment WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comment.PostId AND Post.ForumId=$forumId GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
+              $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comments WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comments.PostId AND Post.ForumId=$forumId GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
             }else {
               $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Likes WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Likes.PostId AND Post.ForumId=$forumId GROUP BY Post.Id ORDER BY $orderType DESC LIMIT $i,1");
             }
@@ -192,7 +193,7 @@ if ($Liked == False) {
                 <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+              <p class='posttext'>". nl2br(htmlspecialchars($result['PostMessage']))."</p>
               <form action='forum.php?Id=". $_GET['Id'] . "&Sort_Type=" . $_GET['Sort_Type'] . "&Sort_Date=" . $_GET['Sort_Date'] . "' method='POST'>
               <input type='submit' class='buttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."'/>
               </form>
@@ -206,7 +207,7 @@ if ($Liked == False) {
                 <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+              <p class='posttext'>". nl2br(htmlspecialchars($result['PostMessage']))."</p>
               <form action='forum.php?Id=". $_GET['Id'] . "&Sort_Type=" . $_GET['Sort_Type'] . "&Sort_Date=" . $_GET['Sort_Date'] . "' method='POST'>
               <input type='submit' class='likedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
@@ -221,7 +222,7 @@ if ($Liked == False) {
             <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
             <span class='postdate'>".$result['PostDate']."</span>
           </div>
-          <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+          <p class='posttext'>". nl2br(htmlspecialchars($result['PostMessage']))."</p>
           <form action='forum.php?Id=". $_GET['Id'] . "&Sort_Type=" . $_GET['Sort_Type'] . "&Sort_Date=" . $_GET['Sort_Date'] . "' method='POST'>
           <input type='submit' class='likedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
         </form>
@@ -241,7 +242,7 @@ if ($Liked == False) {
         <div class='sidebar'>
           <div class='sidebar-post'>
             <p class='sidebar-post-title'>Forum Description</p>
-            <p class='sidebar-post-text'>".htmlspecialchars($forum['ForumDescription'])."</p>
+            <p class='sidebar-post-text'>". nl2br(htmlspecialchars($forum['ForumDescription']))."</p>
           </div>
         </div>
         ";

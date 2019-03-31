@@ -46,7 +46,8 @@ session_start();
               <a href="register_form.php">Sign Up</a>';
             }
             if ($_SESSION['rank'] == 1){
-              echo '<a href="administration_user.php">User Administration</a>';
+              echo '<a href="administration_user.php">User Administration</a>
+              <a href="administration_forums.php">Forum Administration</a>';
             }
             ?>
           </div>
@@ -125,7 +126,7 @@ session_start();
                   <div class='postheader'>
                     <a href='forum.php?Id=".$result['ForumId']."' class='posttitle'><b>".htmlspecialchars($result['ForumTitle'])."</b></a>
                   </div>
-                    <p class='posttext'>".htmlspecialchars($result['ForumDescription'])."</p>
+                    <p class='posttext'>". nl2br(htmlspecialchars($result['ForumDescription']))."</p>
                     <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
                     <input type='submit' class='buttonstyle' name='follow".$i."' value='Follow(".$follows['Follows'].")'/>
                     </form>
@@ -137,7 +138,7 @@ session_start();
                   <div class='postheader'>
                     <a href='forum.php?Id=".$result['ForumId']."' class='posttitle'><b>".htmlspecialchars($result['ForumTitle'])."</b></a>
                   </div>
-                    <p class='posttext'>".htmlspecialchars($result['ForumDescription'])."</p>
+                    <p class='posttext'>". nl2br(htmlspecialchars($result['ForumDescription']))."</p>
                     <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
                     <input type='submit' class='followedbuttonstyle' name='unfollow".$i."' value='Follow(".$follows['Follows'].")' style='color:blue'/>
                     </form>
@@ -149,7 +150,7 @@ session_start();
                 <div class='postheader'>
                   <a href='forum.php?Id=".$result['ForumId']."' class='posttitle'><b>".htmlspecialchars($result['ForumTitle'])."</b></a>
                 </div>
-                  <p class='posttext'>".htmlspecialchars($result['ForumDescription'])."</p>
+                  <p class='posttext'>". nl2br(htmlspecialchars($result['ForumDescription']))."</p>
                   <form action='forums.php?Id=".$result['ForumId']."' method='POST'>
                   <input type='submit' class='buttonstyle' name='' value='Follow(".$follows['Follows'].")' disabled/>
                   </form>

@@ -46,7 +46,8 @@ session_start();
               <a href="register_form.php">Sign Up</a>';
             }
             if ($_SESSION['rank'] == 1){
-              echo '<a href="administration_user.php">User Administration</a>';
+              echo '<a href="administration_user.php">User Administration</a>
+              <a href="administration_forums.php">Forum Administration</a>';
             }
             ?>
           </div>
@@ -125,7 +126,7 @@ if ($Liked == False) {
                 <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+              <p class='posttext'>". nl2br(htmlspecialchars($result['PostMessage']))."</p>
               <form action='index.php' method='POST'>
               <input type='submit' class='buttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."'/>
               </form>
@@ -139,7 +140,7 @@ if ($Liked == False) {
                 <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+              <p class='posttext'>". nl2br(htmlspecialchars($result['PostMessage']))."</p>
               <form action='index.php' method='POST'>
               <input type='submit' class='likedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
@@ -154,7 +155,7 @@ if ($Liked == False) {
             <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
             <span class='postdate'>".$result['PostDate']."</span>
           </div>
-          <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+          <p class='posttext'>". nl2br(htmlspecialchars($result['PostMessage']))."</p>
           <form action='index.php' method='POST'>
           <input type='submit' class='nonlikedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
           </form>
@@ -188,7 +189,7 @@ if ($Liked == False) {
               }
 
               echo "
-              <a class='sidebar-post-text' href='forum.php?Id=".htmlspecialchars($Topforum['ForumId'])."'>".htmlspecialchars($Topforum['ForumTitle'])."(".$follows['Follows'].")</a><br><br>
+              <a class='sidebar-post-text' href='forum.php?Id=".$Topforum['ForumId']."'>".htmlspecialchars($Topforum['ForumTitle'])."(".$follows['Follows'].")</a><br><br>
               ";
             }
             ?>

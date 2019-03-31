@@ -10,7 +10,7 @@ $forumId = $_POST['Id'];
 // Check if a user Id has been entered, if it hasnt, return to administration_user
 
 // On "deleting" a user, all data remains stored, password is set to normal text instead of a hash which makes the account inaccessable
-elseif ($task == "delete"){
+if ($task == "delete"){
 
   //Sets the password for deleted users to Grasmaaier123
   $stmt = $db->prepare("UPDATE User set Password=:deletedPass WHERE Id=:userId");
@@ -30,10 +30,10 @@ elseif ($task == "promote"){
 elseif ($task == "profile") {
   header("location: profile.php?Id=" . $userId);
 }
-elseif ($task == "deleteForum") {
+elseif ($task == "Delete Forum") {
 
   //Get amount of posts on a forum
- $stmt = $db->prepare("SELECT COUNT(PostId) AS amount FROM Forum WHERE ForumId = :forumId");
+ $stmt = $db->prepare("SELECT COUNT(Id) AS amount FROM Post WHERE ForumId = :forumId");
  $stmt->execute(array(':forumId' => $forumId));
 
  $amount = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -41,26 +41,26 @@ elseif ($task == "deleteForum") {
 
  for($i=0;$i<$amountOfPosts;$i++){
 
-   $stmt = $db->prepare("SELECT PostId FROM Forum WHERE ForumId = :forumI LIMIT 1");
+   $stmt = $db->prepare("SELECT Id FROM Post WHERE ForumId = :forumId LIMIT 1");
    $stmt->execute(array('forumId' => $forumId));
    $post = $stmt->fetch(PDO::FETCH_ASSOC);
 
-   $postId = $post['PostId'];
+   $postId = $post['Id'];
 
-   $delete = $db->prepare("DELETE * FROM `Likes` WHERE PostId = :postId");
+   $delete = $db->prepare("DELETE FROM Likes WHERE PostId = :postId");
    $delete->execute(array(':postId' => $postId));
 
-   $delete = $db->prepare("DELETE * FROM `Comment` WHERE PostId = :postId");
+   $delete = $db->prepare("DELETE FROM Comments WHERE PostId = :postId");
    $delete->execute(array(':postId' => $postId));
 
-   $delete = $db->prepare("DELETE * FROM `Post` WHERE Id = :postId");
+   $delete = $db->prepare("DELETE FROM Post WHERE Id = :postId");
    $delete->execute(array(':postId' => $postId));
  }
 
- $delete = $db->prepare("DELETE * FROM 'Volgen' WHERE ForumId = :forumId");
+ $delete = $db->prepare("DELETE FROM Volgen WHERE ForumId = :forumId");
  $delete->execute(array(':forumId' => $forumId));
 
- $delete = $db->prepare("DELETE * FROM 'Forum' WHERE ForumId = :forumId");
+ $delete = $db->prepare("DELETE FROM Forum WHERE Id = :forumId");
  $delete->execute(array(':forumId' => $forumId));
 
  header("location: administration_forums.php");

@@ -94,12 +94,12 @@ if ($_SESSION['logged_in'] != true) {
           <?php
           for ($i = 0; $i <= 19; $i++) {
 
-            $stmt = $db->prepare("SELECT * FROM Forum ORDER BY User.Username DESC LIMIT $i,1");
+            $stmt = $db->prepare("SELECT * FROM Forum ORDER BY Forum.Title DESC LIMIT $i,1");
             $stmt->execute();
 
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $forum = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if (empty($user['Id'])){
+            if (empty($forum['Id'])){
               break;
             }
 
@@ -111,19 +111,19 @@ if ($_SESSION['logged_in'] != true) {
           <div class='post'>
             <table>
               <tr>
-                <th>Title                     </th>
-                <th>Description                                 </th>
+                <th>Title</th>
+                <th>Description</th>
               </tr>
               <tr>
-                <td>". htmlspecialchars($user['Title']) . "</td>
-                <td>". htmlspecialchars($user['Descriptoin']) ."</td>
+                <td>". htmlspecialchars($forum['Title']) . "</td>
+                <td>". nl2br(htmlspecialchars($forum['Description'])) ."</td>
               </tr>
             </table>
 
             <form action='administration.php' method='POST'>
-              <input type='submit' class='buttonstyle' name='action' value='deleteForum'/>;
+              <input type='submit' class='buttonstyle' name='action' value='Delete Forum' />
               <select name='Id' class='invisible'>
-                <option value=". $forum['Id']. "></option>
+                <option value=". $forum['Id'] . "></option>
               </select>
             </form>
 

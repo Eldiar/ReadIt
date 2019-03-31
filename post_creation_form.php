@@ -27,6 +27,7 @@ session_start();
 
           header("location: error.php");
         }
+
       ?>
 
       <!-- Navbar -->
@@ -62,7 +63,8 @@ session_start();
                 <a href="register_form.php">Sign Up</a>';
               }
               if ($_SESSION['rank'] == 1){
-                echo '<a href="administration_user.php">User Administration</a>';
+                echo '<a href="administration_user.php">User Administration</a>
+                <a href="administration_forums.php">Forum Administration</a>';
               }
               ?>
             </div>
@@ -89,7 +91,7 @@ session_start();
 
               <select name="postForum" class="forumselect" value="<?php echo $_SESSION['postForum']; ?>" required>
                 <?php
-                for ($i = 1; $i <= 200; $i++) {
+                for ($i = 0; $i <= 200; $i++) {
                   $stmt = $db->prepare("SELECT Forum.Id AS ForumId, Forum.Title AS ForumTitle FROM Forum ORDER BY Title LIMIT $i,1");
                   $stmt->execute();
                   $result = $stmt->fetch(PDO::FETCH_ASSOC);

@@ -46,7 +46,8 @@ session_start();
               <a href="register_form.php">Sign Up</a>';
             }
             if ($_SESSION['rank'] == 1){
-              echo '<a href="administration_user.php">User Administration</a>';
+              echo '<a href="administration_user.php">User Administration</a>
+              <a href="administration_forums.php">Forum Administration</a>';
             }
             ?>
           </div>
@@ -158,15 +159,15 @@ session_start();
 
 
                 if (empty($nofeed) && empty($noperson)) {
-                $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comment WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comment.PostId GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
+                $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comments WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comments.PostId GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
                 }else {
 
                 $userId = $_SESSION['userId'];
-                $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comment,Volgen,PersoonVolgen WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comment.PostId AND Volgen.ForumId=Post.ForumId AND Post.UserId=PersoonVolgen.Gevolgd AND (Volgen.UserId=$userId OR PersoonVolgen.Volgend=$userId) GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
+                $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comments,Volgen,PersoonVolgen WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comments.PostId AND Volgen.ForumId=Post.ForumId AND Post.UserId=PersoonVolgen.Gevolgd AND (Volgen.UserId=$userId OR PersoonVolgen.Volgend=$userId) GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
               }
               }
               else{
-                $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comment WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comment.PostId GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
+                $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comments WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comments.PostId GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
               }
             }else {
               //Select querys for posts without controversial sorting
@@ -223,7 +224,7 @@ if ($Liked == False) {
                 <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".htmlspecialchars($result['PostDate'])."</span>
               </div>
-              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+              <p class='posttext'>". nl2br(htmlspecialchars($result['PostMessage']))."</p>
               <form action='index.php?Sort_Type=".$_GET['Sort_Type']."&Sort_Date=".$_GET['Sort_Date']."' method='POST'>
               <input type='submit' class='buttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."'/>
               </form>
@@ -237,7 +238,7 @@ if ($Liked == False) {
                 <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
                 <span class='postdate'>".$result['PostDate']."</span>
               </div>
-              <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+              <p class='posttext'>". nl2br(htmlspecialchars($result['PostMessage']))."</p>
               <form action='index.php?Sort_Type=".$_GET['Sort_Type']."&Sort_Date=".$_GET['Sort_Date']."' method='POST'>
               <input type='submit' class='likedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
               </form>
@@ -252,7 +253,7 @@ if ($Liked == False) {
             <a href='profile.php?Id=".$result['PosterId']."' class='postuser'>".htmlspecialchars($result['Username'])."</a>
             <span class='postdate'>".$result['PostDate']."</span>
           </div>
-          <p class='posttext'>".htmlspecialchars($result['PostMessage'])."</p>
+          <p class='posttext'>".nl2br(htmlspecialchars($result['PostMessage']))."</p>
           <form action='index.php?Sort_Type=".$_GET['Sort_Type']."&Sort_Date=".$_GET['Sort_Date']."' method='POST'>
           <input type='submit' class='nonlikedbuttonstyle' name='".$i."' value='Likes: ".$likes['Likes']."' disabled/>
           </form>
