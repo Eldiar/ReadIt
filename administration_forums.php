@@ -92,7 +92,7 @@ if ($_SESSION['logged_in'] != true) {
         <!-- Main feed-->
         <div class="main">
           <?php
-          for ($i = 0; $i <= 19; $i++) {
+          for ($i = 0; $i <= 1000; $i++) {
 
             $stmt = $db->prepare("SELECT * FROM Forum ORDER BY Forum.Title DESC LIMIT $i,1");
             $stmt->execute();

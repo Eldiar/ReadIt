@@ -81,7 +81,7 @@ session_start();
         <div class="main">
           <?php
 
-          for ($i = 0; $i <= 190; $i++) {
+          for ($i = 0; $i <= 200; $i++) {
             $Followed = false;
             $NonFollowed = false;
 

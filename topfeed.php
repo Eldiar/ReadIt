@@ -85,7 +85,7 @@ session_start();
           $timeDifference = 7;
           $orderType = 'COUNT(Post.Id)';
 
-          for ($i = 0; $i <= 19; $i++) {
+          for ($i = 0; $i <= 2000; $i++) {
             $Liked = false;
 
             $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Likes WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Likes.PostId GROUP BY Post.Id ORDER BY $orderType DESC LIMIT $i,1");

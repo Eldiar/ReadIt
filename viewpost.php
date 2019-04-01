@@ -287,7 +287,7 @@ $follows = $stmt->fetch(PDO::FETCH_ASSOC);
             </div>
             ";
             $Commented = false;
-            for ($i = 0; $i <= 19; $i++) {
+            for ($i = 0; $i <= 1000; $i++) {
 
               $stmt = $db->prepare("SELECT User.Username As Username, User.Id AS CommenterId, Comments.Datum As CommentDate, Comments.Message As CommentMessage FROM Comments ,User WHERE Comments.UserId=User.Id AND Comments.PostId = $postId ORDER BY Comments.Datum DESC LIMIT $i,1");
               $stmt->execute();

@@ -147,11 +147,11 @@ session_start();
           $nopersoncheck->execute(array('userId' => $_SESSION['userId']));
           $noperson = $nopersoncheck->fetch(PDO::FETCH_ASSOC);
 
-          if (empty($nofeed) && empty($noperson)) {
+          if (empty($nofeed) && empty($noperson) && $_SESSION['logged_in']==true) {
           echo "try following some forums or people. If you do so you will get a personalised feed here with only the things you want to see.";
           }
           //post showing loop
-          for ($i = 0; $i <= 19; $i++) {
+          for ($i = 0; $i <= 5000; $i++) {
             $Liked = false;
             //Select querys for posts with controversial sorting
             if ($controverial == true) {

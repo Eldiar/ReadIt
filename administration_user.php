@@ -92,7 +92,7 @@ if ($_SESSION['logged_in'] != true) {
         <!-- Main feed-->
         <div class="main">
           <?php
-          for ($i = 0; $i <= 19; $i++) {
+          for ($i = 0; $i <= 1000; $i++) {
 
             $userId = $_SESSION['userId'];
             $stmt = $db->prepare("SELECT * FROM User ORDER BY User.Username DESC LIMIT $i,1");

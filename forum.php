@@ -148,7 +148,7 @@ session_start();
           }
 
 
-          for ($i = 0; $i <= 19; $i++) {
+          for ($i = 0; $i <= 1000; $i++) {
             $Liked = false;
             if ($controverial == true) {
               $stmt = $db->prepare("SELECT Post.Id AS PostId, Post.Title AS PostTitle, Post.Message AS PostMessage, Post.Datum AS PostDate, Post.UserId As PosterId, User.Username As Username FROM Post,User,Comments WHERE Post.UserId=User.Id AND TIMESTAMPDIFF(DAY, Post.Datum, CURRENT_TIME()) < $timeDifference AND Post.Id=Comments.PostId AND Post.ForumId=$forumId GROUP BY Post.Id ORDER BY COUNT(Post.Id) DESC LIMIT $i,1");
